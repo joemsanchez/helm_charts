@@ -1,1 +1,1 @@
-# helm_charts made by me, yay
+# Helm charts made by me, yay
