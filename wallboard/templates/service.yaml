@@ -1,0 +1,25 @@
+{{- if .Values.service }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "Generated.fullname" . }}
+  labels:
+    app: {{ include "Generated.name" . }}
+    chart: {{ include "Generated.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  {{- if eq .Values.service.type "ExternalName" }}
+  externalName: {{ .Values.service.externalName | quote }}
+  {{- else }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}
+      protocol: TCP
+      name: http
+  {{- end }}
+  selector:
+    app: {{ include "Generated.name" . }}
+    release: {{ .Release.Name }}
+{{- end }}
