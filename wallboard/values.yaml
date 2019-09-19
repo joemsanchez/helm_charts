@@ -20,8 +20,8 @@ ingress:
     nginx.ingress.kubernetes.io/add-base-url: "true"
 
   path: /
-  # hosts:
-  #   - devservices.practicevelocity.com
+  hosts:
+    - wallboard.practicevelocity.com
   # tls:
   #   - secretName: tls-star-practicevelocity
   #     hosts:
