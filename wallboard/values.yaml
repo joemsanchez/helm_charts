@@ -1,37 +1,10 @@
 replicaCount: 1
 
 image:
-  repository: "hub.pvops.com/dev/care-quality"
-  tag: "19.1.20190309124339"
+  repository: "https://cloud.docker.com/repository/docker/joemsanc/wallboard/general"
+  tag: "tagname"
   pullPolicy: IfNotPresent
 
-env:
-  PathBase: "carequality"
-  RcmApiBaseAddress: "http://rcm-admin-api-alias/"
-  ASPNETCORE_ENVIRONMENT: "Production"
-  ASPNETCORE_URLS: "http://0.0.0.0:80"
-  KeyFilePath: "/var/secret"
-  EncryptionPrivateKeyFileName: "EncryptionPrivateKey"
-  EncryptionPrivateKeyFilePath: "/var/secret"
-  EncryptionPublicKeyFileName: "EncryptionPublicKey"
-  EncryptionPublicKeyFilePath: "/var/secret"
-
-envSecrets:
-  RcmApiUserName: "care-quality-credentials"
-  RcmApiPassword: "care-quality-credentials"
-  APP_SECRET: "care-quality-credentials"
-  EncryptionPrivateKey: "care-quality-credentials"
-  EncryptionPublicKey: "care-quality-credentials"
-
-mountSecret:
-  - care-quality-credentials
-
-envConfigurations:
-  IntegrationApiBaseAddress: "care-quality-configurations"
-  CareQualityBaseAddress: "care-quality-configurations"
-  AppAuthApiBaseAddress: "care-quality-configurations"
-  SignalRServerApiUrl: "care-quality-configurations"
- 
 service:
   type: ClusterIP
   port: 80
