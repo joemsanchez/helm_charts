@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: "joemsanc/wallboard"
-  tag: "tagname"
+  repository: joemsanc/wallboard
+  tag: 1.0
   pullPolicy: IfNotPresent
 
 service:
