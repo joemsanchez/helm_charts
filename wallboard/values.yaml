@@ -9,7 +9,7 @@ env:
   WALLBOARD_HTTPS: "false"
   WALLBOARD_TRUST_PROXY_SSL: "true"
 
-## Number of phpLDAPadmin images
+## Number of wallboard images
 replicaCount: 1
 
 ## Set default image, imageTag, and imagePullPolicy. mode is used to indicate the
