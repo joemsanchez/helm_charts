@@ -31,15 +31,15 @@ image:
 ## ref: http://kubernetes.io/docs/user-guide/services/
 ##
 service:
-  type: LoadBalancer
+  type: ClusterIP
   ## name: phpldapadmin
   port: 80
   annotations: {}
 
 ingress:
-  enabled: false
+  enabled: true
   annotations: {}
-  path: /
+  path: /wallboard
   ## Ingress Host
   # hosts:
   # - phpldapadmin.example.org
