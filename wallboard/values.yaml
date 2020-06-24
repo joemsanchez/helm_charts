@@ -47,7 +47,7 @@ ingress:
     nginx.ingress.kubernetes.io/add-base-url: "true"
   path: /wallboard
   hosts:
-    - wallboard.practicevelocity.com
+    - testservices.emrops.com
     
   ## Ingress Host
   # hosts:
