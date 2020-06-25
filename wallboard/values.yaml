@@ -34,30 +34,18 @@ service:
   type: ClusterIP
   ## name: phpldapadmin
   port: 80
-  annotations: {}
-
-ingress:
-  enabled: true
-  annotations: 
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/affinity: "cookie"
-    nginx.ingress.kubernetes.io/session-cookie-name: "wallboard"
-    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/add-base-url: "true"
-  path: /wallboard
-  hosts:
-    - testservices.emrops.com
-    
-  ## Ingress Host
-  # hosts:
-  # - phpldapadmin.example.org
-  #
-  tls: []
-  # tls:
-  # - secretName: phpldapadmin-dedicated-tls
-  #   hosts:
-  #   - phpldapadmin.example.org
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v1
+      # kind: Mapping
+      name: support-wallboard
+      ambassador_id: support-wallboard
+      prefix: /wallboard/
+      rewrite: /
+      # service: grafana.logging-system:80
+      timeout_ms: 30000
+      connect_timeout_ms: 30000
 
 ## Configure liveness and readiness probes
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
