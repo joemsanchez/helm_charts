@@ -34,6 +34,8 @@ service:
   type: ClusterIP
   ## name: phpldapadmin
   port: 80
+  annotations: {}
+
 ## Configure liveness and readiness probes
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 ##
