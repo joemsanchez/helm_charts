@@ -34,20 +34,19 @@ service:
   type: ClusterIP
   ## name: phpldapadmin
   port: 80
-  annotations: {}
-
-ingress:
-  enabled: true
-  annotations: 
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/affinity: "cookie"
-    nginx.ingress.kubernetes.io/session-cookie-name: "wallboard"
-    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/add-base-url: "true"
-  path: /wallboard
-  hosts:
-    - wallboard.practicevelocity.com
+  
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v1
+      kind: Mapping
+      name: wallboard
+      ambassador_id: external-ambassador
+      prefix: /wallboard/
+      rewrite: /
+      service: support-wallboard.wallboard:80
+      timeout_ms: 30000
+      connect_timeout_ms: 30000
     
   ## Ingress Host
   # hosts:
