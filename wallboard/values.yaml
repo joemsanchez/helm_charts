@@ -35,18 +35,7 @@ service:
   ## name: phpldapadmin
   port: 80
   
-  annotations:
-    getambassador.io/config: |
-      ---
-      apiVersion: ambassador/v1
-      kind: Mapping
-      name: wallboard
-      ambassador_id: external-ambassador
-      prefix: /wallboard/
-      rewrite: /
-      service: support-wallboard.wallboard:80
-      timeout_ms: 30000
-      connect_timeout_ms: 30000
+  annotations{}
     
   ## Ingress Host
   # hosts:
