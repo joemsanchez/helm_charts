@@ -34,7 +34,28 @@ service:
   type: ClusterIP
   ## name: phpldapadmin
   port: 80
-  annotations: {}
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v1
+      kind: Mapping
+      name: wallboard
+      ambassador_id: external-ambassador
+      prefix: /wallboard/
+      rewrite: /
+      service: support-wallboard.wallboard:80
+      timeout_ms: 30000
+      connect_timeout_ms: 30000
+    
+  ## Ingress Host
+  # hosts:
+  # - phpldapadmin.example.org
+  #
+  tls: []
+  # tls:
+  # - secretName: phpldapadmin-dedicated-tls
+  #   hosts:
+  #   - phpldapadmin.example.org
 
 ## Configure liveness and readiness probes
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
