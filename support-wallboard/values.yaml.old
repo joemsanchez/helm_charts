@@ -1,0 +1,43 @@
+replicaCount: 1
+
+image:
+  repository: "joemsanc/wallboard"
+  tag: "1.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+alias: true
+healthProbes: true
+
+ingress:
+  enabled: true
+  annotations: 
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/add-base-url: "true"
+
+  path: /
+  hosts:
+    - wallboard.practicevelocity.com
+  tls: 
+  #   - secretName: tls-star-practicevelocity
+  #     hosts:
+  #       - devservices.practicevelocity.com
+
+resources:
+  limits:
+    cpu: 300m
+    memory: 512Mi
+  requests:
+    cpu: 300m
+    memory: 512Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
