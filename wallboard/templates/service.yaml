@@ -6,7 +6,7 @@ metadata:
   {{- with .Values.service.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
-  {{- end }}  
+  {{- end }}
   labels:
     app: {{ include "Generated.name" . }}
     chart: {{ include "Generated.chart" . }}
