@@ -6,8 +6,8 @@
 ## TODO: add this in the deployment.yaml	
 env:	
   # PHPLDAPADMIN_LDAP_HOSTS: ...	
-  WALLBOARD_HTTPS: "false"	
-  WALLBOARD_TRUST_PROXY_SSL: "true"	
+  TEST_HTTPS: "false"	
+  TEST_TRUST_PROXY_SSL: "true"	
 
 ## Number of wallboard images	
 replicaCount: 1	
@@ -15,7 +15,7 @@ replicaCount: 1
 ## Set default image, imageTag, and imagePullPolicy. mode is used to indicate the	
 ##	
 image:	
-  repository: "joemsanc/wallboard"	
+  repository: "bitnami/apache:latest"	
   tag: "1.0"	
   pullPolicy: IfNotPresent	
 
