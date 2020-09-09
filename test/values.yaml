@@ -1,90 +1,151 @@
----	
-# Default values for phpldapadmin.	
-# This is a YAML-formatted file.	
-# Declare variables to be passed into your templates.	
+replicaCount: 1
 
-## TODO: add this in the deployment.yaml	
-env:	
-  # PHPLDAPADMIN_LDAP_HOSTS: ...	
-  TEST_HTTPS: "false"	
-  TEST_TRUST_PROXY_SSL: "true"	
-
-## Number of wallboard images	
-replicaCount: 1	
-
-## Set default image, imageTag, and imagePullPolicy. mode is used to indicate the	
-##	
-image:	
-  repository: "bitnami/apache:latest"	
-  tag: "1.0"	
-  pullPolicy: IfNotPresent	
-
-
-## Enable persistence using Persistent Volume Claims	
-## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/	
-##	
-
-## TODO persistence	
-
-## Expose the pgAdmin service to be accessed from outside the cluster (LoadBalancer service).	
-## or access it from within the cluster (ClusterIP service). Set the service type and the port to serve it.	
-## ref: http://kubernetes.io/docs/user-guide/services/	
-##	
-service:	
-  type: ClusterIP	
-  ## name: phpldapadmin	
-  port: 80	
-  annotations: {}	
-
-ingress:	
+autoscaling:
   enabled: false
-#  annotations: 	
-#    kubernetes.io/ingress.class: nginx	
-#    nginx.ingress.kubernetes.io/affinity: "cookie"	
-#    nginx.ingress.kubernetes.io/session-cookie-name: "wallboard"	
-#    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"	
-#    nginx.ingress.kubernetes.io/rewrite-target: /	
-#    nginx.ingress.kubernetes.io/add-base-url: "true"	
-#  path: /wallboard	
-#  hosts:	
-#    - wallboard.practicevelocity.com	
+  targetCPUUtilizationPercentage: 60
+  minReplicas: 2
+  maxReplicas: 5
 
-  ## Ingress Host	
-  # hosts:	
-  # - phpldapadmin.example.org	
-  #	
-  tls: []	
-  # tls:	
-  # - secretName: phpldapadmin-dedicated-tls	
-  #   hosts:	
-  #   - phpldapadmin.example.org	
+image:
+  repository: bitnami/apache
+  tag: 2.4.46
+  pullPolicy: IfNotPresent
 
-## Configure liveness and readiness probes	
-## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/	
-##	
-readinessProbe:	
-  httpGet:	
-    path: /	
-    port: http	
-livenessProbe:	
-   httpGet:	
-     path: /	
-     port: http	
+env:
+  PathBase: "projecttemplate"
+#  ApplicationName: "project-template"
+#  HostName: "pproject-template"
+  SwaggerEnable: "false"
+  LoggingEndpointEnabled: "false"
+  ASPNETCORE_ENVIRONMENT: "Release"
+  ASPNETCORE_URLS: "http://0.0.0.0:80"
+  SECRETS_PATH: "/var/secret"
+  DataSource: "database"
+#  JwtExpirationMinutes: "1440"
+#  JwtIssuer: "project-template"
+#  JwtAudience: "project-template"
+#  EncryptionPrivateKeyFileName: "EncryptionPrivateKey"
+#  EncryptionPrivateKeyFilePath: "/var/secret"
+#  EncryptionPublicKeyFileName: "EncryptionPublicKey"
+#  EncryptionPublicKeyFilePath: "/var/secret"
 
-resources: {}	
-  # We usually recommend not to specify default resources and to leave this as a conscious	
-  # choice for the user. This also increases chances charts run on environments with little	
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following	
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.	
-  # limits:	
-  #  cpu: 100m	
-  #  memory: 128Mi	
-  # requests:	
-  #  cpu: 100m	
-  #  memory: 128Mi	
+secret:
+  external: false
+#  prefix: /hq/k8s/dev
 
-nodeSelector: {}	
 
-tolerations: []	
+envSecrets:
+#  DbUserId: "project-template-credentials"
+#  DbPassword: "project-template-credentials"
+#  JwtKey: "project-template-credentials"
+#  EncryptionPrivateKey: "project-template-credentials"
+#  EncryptionPublicKey: "project-template-credentials"
+
+#envConfigurations:
+#  PvCarequalityApiUrl: "project-template-configurations"
+#  SignalRServerHostName: "project-template-configurations"
+
+#mountSecret:
+#  - project-template-credentials
+
+#envConfigurations:
+#  apiUrl: "project-template-configurations"
+
+service:
+  type: ClusterIP
+  port: 80
+  annotations: {}
+    # getambassador.io/config: |
+    #   ---
+    #   apiVersion: ambassador/v1
+    #   kind: Mapping
+    #   name: jenkins_mapping
+    #   ambassador_id: external-ambassador
+    #   host: hub.pvops.com
+    #   prefix: /jenkins
+    #   rewrite: ""
+    #   service: jenkins.jenkins-system:8080
+    #   timeout_ms: 30000
+    #   connect_timeout_ms: 30000
+  labels: {}
+
+alias: false
+disableDeploy: false
+healthProbes: true
+readinessProbe:
+  path: "/Info/HealthCheck"
+livenessProbe:
+  path: "/Info/HealthCheck"
+
+ingress:
+  private:
+    enabled: false
+    prefix: /projecttemplate/
+    rewrite: ""
+
+  enabled: false
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+#    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "project-template"
+    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+#    nginx.ingress.kubernetes.io/add-base-url: "true"
+    nginx.ingress.kubernetes.io/cors-allow-headers: DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization
+
+  path: /projecttemplate
+  hosts:
+    - devservices.practicevelocity.com
+  tls:
+    - secretName: tls-star-practicevelocity
+      hosts:
+        - devservices.practicevelocity.com
+
+#resources:
+#  limits:
+#    cpu: 300m
+#    memory: 512Mi
+#  requests:
+#    cpu: 300m
+#    memory: 512Mi
+
+nodeSelector: {}
+
+tolerations: []
 
 affinity: {}
+
+statefulset: true
+persistence: []
+#  - name: data
+#    mountPath: /mnt/data
+#    spec:
+#      storageClassName: "fast"
+#      accessModes:
+#        - ReadWriteOnce
+#      volumeMode: Filesystem
+#      resources:
+#        requests:
+#          storage: 8Gi
+
+cronJob: []
+#  - name: cronjob
+#    interpolate: true
+#    spec:
+#      schedule: "*/10 * * * *"
+#      successfulJobsHistoryLimit: 1
+#      failedJobsHistoryLimit: 1
+#      concurrencyPolicy: Forbid
+#      jobTemplate:
+#        spec:
+#          backoffLimit: 2
+#          template:
+#            spec:
+#              restartPolicy: Never
+#              activeDeadlineSeconds: 600
+#              containers:
+#              - name: job
+#                image: "{{ .Values.image.repository }}"
+#                tag: "{{ .Values.image.tag }}"
+#                args: []
