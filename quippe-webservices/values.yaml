@@ -1,0 +1,101 @@
+replicaCount: 1
+
+image:
+  repository: proget.medicomp.com/medicomp-docker/quippe-webservices-nodejs
+  tag: 3.0.20203.3619
+  pullPolicy: IfNotPresent
+
+env:
+  PathBase: "/quippe-webservices"
+  ASPNETCORE_URLS: "http://0.0.0.0:1414"
+  MEDCIN_SERVER_HOST: "medcin-server"
+  MEDCIN_SERVER_PORT: 8080
+  IN_PROC_MEDCIN_SERVER: false
+  HTTP_DATA_SERVICES: true  
+
+envSecrets:
+
+mountSecret:
+
+envConfigurations:
+
+service:
+  type: ClusterIP
+  port: 80
+  annotations: {}
+  labels: {}
+
+alias: true
+healthProbes: false
+
+ingress:
+  enabled: true
+  annotations: 
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+#    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "quippe-webservices"
+    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+    nginx.ingress.kubernetes.io/add-base-url: "true"
+
+  path: /quippewebservices
+  hosts:
+    - testservices.emrops.com
+  tls:
+    - secretName: tls-star-practicevelocity
+      hosts:
+        - testservices.emrops.com
+
+server:
+  statefulSet:
+    enabled: true
+  persistentVolume:
+    size: 20Gi
+    storageClass: "data-delete-sc"        
+
+resources:
+  limits:
+    cpu: 300m
+    memory: 512Mi
+  requests:
+    cpu: 300m
+    memory: 512Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# persistence:
+#   - name: data
+#     mountPath: /mnt/data
+#     spec:
+#       storageClassName: "fast"
+#       accessModes:
+#         - ReadWriteOnce
+#       volumeMode: Filesystem
+#       resources:
+#         requests:
+#           storage: 8Gi
+
+# Enable autoscaling
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 60  
+
