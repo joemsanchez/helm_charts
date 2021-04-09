@@ -36,6 +36,13 @@ server:
     size: 20Gi
     storageClass: "data-delete-sc"
 
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
 resources:
   limits:
     cpu: 300m
