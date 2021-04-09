@@ -1,176 +1,146 @@
-{{- if .Values.image }}
-{{- if not .Values.disableDeploy }}
-{{- if ne .Values.image.repository "" }}
-{{- if or (not .Values.statefulset) (not .Values.persistence) }}
-
-{{- $ingressPath := .Values.ingress.path }}
-{{- $gName := include "Generated.fullname" .}}
-{{- $gChart := include "Generated.chart" . }}
-{{- $gRelease := .Release.Name }}
-{{- $gHeritage := .Release.Service }}
-{{- $nrAppName := include "Generated.newrelic.name" . }}
-{{- $nrEnable := default false .Values.newrelic }}
 apiVersion: apps/v1
+{{- if .Values.autoscaling.enabled}}
+kind: StatefulSet
+{{- else if .Values.daemonSet }}
+kind: DaemonSet
+{{- else}}
 kind: Deployment
+{{- end}}
 metadata:
-  name: {{ include "Generated.fullname" . }}
+  name: {{ template "awx-operator.fullname" . }}
   labels:
-    app: {{ $gName }}
-    chart: {{ $gChart }}
-    release: {{ $gRelease }}
-    heritage: {{ $gHeritage }}
-    version: {{  default .Values.image.tag 0}}
+    app: {{ template "awx-operator.name" . }}
+    chart: {{ template "awx-operator.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
+{{- if and (not .Values.autoscaling.enabled) (not .Values.daemonSet) }}
   replicas: {{ .Values.replicaCount }}
+{{- end }}
   selector:
     matchLabels:
-      app: {{ include "Generated.name" . }}
+      app: {{ template "awx-operator.name" . }}
       release: {{ .Release.Name }}
+  {{- if .Values.persistence.enabled }}
+  strategy:
+    type: Recreate
+  {{- end }}
   template:
     metadata:
       labels:
-        app: {{ include "Generated.name" . }}
+        app: {{ template "awx-operator.name" . }}
         release: {{ .Release.Name }}
+      annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- if .Values.annotations }}
+        {{- toYaml .Values.annotations | nindent 8 }}
+        {{- end }}
     spec:
-      {{- if .Values.imagePullSecrets }}
+{{- if .Values.image.pullSecrets }}
       imagePullSecrets:
-        {{- range .Values.imagePullSecrets }}
-        - name: {{ . }}
-        {{- end }}
+      {{- range $pullSecret := .Values.image.pullSecrets }}
+        - name: {{ $pullSecret }}
       {{- end }}
-
-
-      {{- with .Values.initContainers }}
-      initContainers:
-{{ toYaml . | indent 8 }}
-      {{- end }}
-
+{{- end }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          {{- with .Values.command }}
-          command:
-{{ toYaml . | indent 12 }}
-          {{- end }}
-          {{- with .Values.args }}
-          args:
-{{ toYaml . | indent 12 }}
-          {{- end }}
-          env:
-            {{- if eq $nrEnable true }}
-            - name: "CORECLR_ENABLE_PROFILING"
-              value: "1"
-            - name: "NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"
-              value: "true"
-            - name: "NEW_RELIC_APP_NAME"
-              value: "{{ $nrAppName }}"
-            - name: "NEW_RELIC_LICENSE_KEY"
-              valueFrom:
-                secretKeyRef:
-                  name: "main-credentials"
-                  key: "NEW_RELIC_LICENSE_KEY"
-            {{- end }}
-            {{- range $key, $value := .Values.env }}
-            - name: "{{ $key }}"
-              value: "{{ $value }}"
-            {{- end }}
-            {{- range $key, $secret := $.Values.envSecrets }}
-            - name: {{ $key }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secret }}
-                  key: {{ $key | quote }}
-            {{- end }}
-            {{- range $key, $config := $.Values.envConfigurations }}
-            - name: {{ $key }}
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ $config }}
-                  key: {{ $key | quote }}
-            {{- end }}
-
-          volumeMounts:
-            {{- if $.Values.mountSecret }}
-            - name: pv-secret
-              mountPath: "/var/secret"
-              readOnly: true
-            {{- end }}
-            {{- range $persist :=.Values.persistence }}
-            - name: {{ $persist.name }}
-              mountPath: {{ $persist.mountPath }}
-            {{- end }}
-            {{- with .Values.volumeMounts }}
-{{ toYaml . | indent 12 }}
-            {{- end }}
-
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          {{- if .Values.healthProbes }}
-          {{- if .Values.healthCheckOverride -}}
-          {{ with .Values.healthCheckOverride.livenessProbe }}
-          livenessProbe:
-{{ toYaml . | indent 12 }}
-          {{- end }}
-          {{ with .Values.healthCheckOverride.readinessProbe }}
-          readinessProbe:
-{{ toYaml . | indent 12 }}
-          {{- end }}
-
-          {{- else -}}
-
-          {{ with .Values.livenessProbe }}
-          livenessProbe:
-            httpGet:
-              path: {{ default "/" .path }}
-              port: {{ default "80" .port }}
-          {{- end }}
-          {{- with .Values.readinessProbe }}
-          readinessProbe:
-            httpGet:
-              path: {{ default "/" .path }}
-              port: {{ default "80" .port }}
-          {{- end }}
-          {{- end -}}
-          {{- end }}
-
-          resources:
-{{ toYaml .Values.resources | indent 12 }}
-
-      volumes:
-        {{- if $.Values.mountSecret }}
-        - name: pv-secret
-          {{- range $value := .Values.mountSecret }}
-          secret:
-            secretName: {{ $value }}
-          {{- end }}
-        {{- end }}
-        {{- range $persist :=.Values.persistence }}
-        - name: {{ $persist.name }}
-          persistentVolumeClaim:
-            claimName: {{ $gName }}-{{ $persist.name }}
-        {{- end }}
-      {{- with .Values.volumes }}
-{{ toYaml . | indent 8 }}
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+      {{- if and (.Values.plugins.enabled) (gt (len .Values.plugins.pluginsList) 0) }}
+        command: ["/bin/sh", "-c", "/etc/fluent/config.d/install-plugins.sh"]
       {{- end }}
-
-      {{- with .Values.nodeSelector }}
+        env:
+          - name: OUTPUT_HOST
+            value: {{ .Values.output.host | quote }}
+          - name: OUTPUT_PORT
+            value: {{ .Values.output.port | quote }}
+          - name: OUTPUT_SCHEME
+            value: {{ .Values.output.scheme | quote }}
+          - name: OUTPUT_SSL_VERSION
+            value: {{ .Values.output.sslVersion | quote }}
+          - name: OUTPUT_BUFFER_CHUNK_LIMIT
+            value: {{ .Values.output.buffer_chunk_limit | quote }}
+          - name: OUTPUT_BUFFER_QUEUE_LIMIT
+            value: {{ .Values.output.buffer_queue_limit | quote }}
+          {{- range $key, $value := .Values.env }}
+          - name: {{ $key | quote }}
+            value: {{ $value | quote }}
+          {{- end }}
+          {{- if .Values.extraEnvVars }}
+{{ toYaml .Values.extraEnvVars | indent 10 }}
+          {{- end }}
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+        ports:
+{{- range $port := .Values.service.ports }}
+          - name: {{ $port.name }}
+            containerPort: {{ $port.containerPort }}
+            protocol: {{ $port.protocol }}
+{{- end }}
+{{- if .Values.metrics.enabled }}
+          - name: metrics
+            containerPort: {{ .Values.metrics.service.port }}
+            protocol: TCP
+{{- end }}
+          - name: http-input
+            containerPort: 9880
+            protocol: TCP
+        livenessProbe:
+          httpGet:
+            # Use percent encoding for query param.
+            # The value is {"log": "health check"}.
+            # the endpoint itself results in a new awx-operator
+            # tag 'awx-operator.pod-healthcheck'
+            path: /awx-operator.pod.healthcheck?json=%7B%22log%22%3A+%22health+check%22%7D
+            port: 9880
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        volumeMounts:
+        - name: config-volume-{{ template "awx-operator.fullname" . }}
+          mountPath: /etc/fluent/config.d
+        - name: buffer
+          mountPath: "/var/log/awx-operator-buffers"
+{{- if .Values.extraVolumeMounts }}
+{{ toYaml .Values.extraVolumeMounts | indent 8 }}
+{{- end }}
+      serviceAccountName: {{ template "awx-operator.fullname" . }}
+      volumes:
+        - name: config-volume-{{ template "awx-operator.fullname" . }}
+          configMap:
+            name: {{ template "awx-operator.fullname" . }}
+            defaultMode: 0777
+        {{- if and .Values.persistence.enabled (not .Values.autoscaling.enabled) }}
+        - name: buffer
+          persistentVolumeClaim:
+            claimName: {{ template "awx-operator.fullname" . }}
+        {{- else if (not .Values.persistence.enabled) }}
+        - name: buffer
+          emptyDir: {}
+        {{- end }}
+{{- if .Values.extraVolumes }}
+{{ toYaml .Values.extraVolumes | indent 8 }}
+{{- end }}
+    {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
-      {{- end }}
-
-      {{- with .Values.affinity }}
+    {{- end }}
+    {{- with .Values.affinity }}
       affinity:
 {{ toYaml . | indent 8 }}
-      {{- end }}
-
-      {{- with .Values.tolerations }}
+    {{- end }}
+    {{- with .Values.tolerations }}
       tolerations:
 {{ toYaml . | indent 8 }}
-      {{- end }}
-{{- end }}
-{{- end }}
-{{- end }}
+    {{- end }}
+{{- if and .Values.persistence.enabled (.Values.autoscaling.enabled) }}
+  volumeClaimTemplates:
+  - metadata:
+      name: buffer
+    spec:
+      accessModes: [{{ .Values.persistence.accessMode }}]
+      storageClassName: {{ .Values.persistence.storageClass }}
+      resources:
+        requests:
+          storage: {{ .Values.persistence.size }}
 {{- end }}
