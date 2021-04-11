@@ -30,11 +30,11 @@ spec:
       labels:
         app: {{ template "awx-operator.name" . }}
         release: {{ .Release.Name }}
-      annotations:
-        checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-        {{- if .Values.annotations }}
-        {{- toYaml .Values.annotations | nindent 8 }}
-        {{- end }}
+      # annotations:
+      #   checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      #   {{- if .Values.annotations }}
+      #   {{- toYaml .Values.annotations | nindent 8 }}
+      #   {{- end }}
     spec:
 {{- if .Values.image.pullSecrets }}
       imagePullSecrets:
