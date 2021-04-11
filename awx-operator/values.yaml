@@ -48,9 +48,9 @@ tolerations: []
 
 affinity: {}
 
-volumeMounts:
-  - mountPath: /tmp/ansible-operator/runner
-    name: runner
+volumeMounts: {}
+  # - mountPath: /tmp/ansible-operator/runner
+  #   name: runner
 
 # Enable autoscaling 
 autoscaling:
