@@ -47,6 +47,10 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name:
 
+## Persist data to a persistent volume
+persistence:
+  enabled: false
+
 resources:
   limits:
     cpu: 300m
