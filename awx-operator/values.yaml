@@ -8,7 +8,7 @@ image:
 env:
   # Watch all namespaces (cluster-scoped).
   WATCH_NAMESPACE: ""
-  POD_NAME: metadata.name
+  POD_NAME: awx-operator-pod
   OPERATOR_NAME: awx-operator
   ANSIBLE_GATHERING: explicit
 
