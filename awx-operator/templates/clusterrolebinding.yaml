@@ -1,23 +1,12 @@
-{{- if .Values.rbac.create -}}
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "awx-operator.fullname" . }}
-  labels:
-    app: {{ template "awx-operator.name" . }}
-    chart: {{ template "awx-operator.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+  name: awx-operator
 subjects:
-- kind: ServiceAccount
-  name: {{ template "awx-operator.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: awx-operator
+    namespace: default
 roleRef:
   kind: ClusterRole
-  name: {{ template "awx-operator.fullname" . }}
+  name: awx-operator
   apiGroup: rbac.authorization.k8s.io
-{{- end -}}
-
-
-
-
