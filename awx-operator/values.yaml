@@ -6,7 +6,17 @@ image:
   pullPolicy: IfNotPresent
 
 env:
-
+  # Watch all namespaces (cluster-scoped).
+  - name: WATCH_NAMESPACE
+    value: ""
+  - name: POD_NAME
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.name
+  - name: OPERATOR_NAME
+    value: awx-operator
+  - name: ANSIBLE_GATHERING
+    value: explicit
 
 envSecrets:
   # MEDCIN_LICENSE_SECRET: "test-medcin-license"
