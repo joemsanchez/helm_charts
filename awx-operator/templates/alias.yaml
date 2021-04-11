@@ -2,16 +2,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "Generated.name" . }}-alias
+  name: {{ include "awx-operator.name" . }}-alias
   labels:
-    app: {{ include "Generated.name" . }}
-    chart: {{ include "Generated.chart" . }}
+    app: {{ include "awx-operator.name" . }}
+    chart: {{ include "awx-operator.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   type: ExternalName
-  externalName: {{ include "Generated.service.fqdn" . | quote }}
+  externalName: {{ include "awx-operator.service.fqdn" . | quote }}
   selector:
-    app: {{ include "Generated.name" . }}
+    app: {{ include "awx-operator.name" . }}
     release: {{ .Release.Name }}
 {{- end }}

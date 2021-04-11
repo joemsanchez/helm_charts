@@ -3,12 +3,12 @@
 apiVersion: getambassador.io/v1
 kind:  Mapping
 metadata:
-  name:  {{ include "Generated.service.name" . }}-mapping
+  name:  {{ include "awx-operator.service.name" . }}-mapping
 spec:
   ambassador_id: {{ default "internal-ambassador" .Values.ingress.private.ambassador_id }}
   prefix: {{ .Values.ingress.private.prefix }}
   rewrite: {{ .Values.ingress.private.rewrite | quote }}
-  service: {{ include "Generated.service.fqdn" . }}.:{{ .Values.service.port }}
+  service: {{ include "awx-operator.service.fqdn" . }}.:{{ .Values.service.port }}
   timeout_ms: {{ default "60000" .Values.ingress.private.timeout_ms }}
   connect_timeout_ms: {{ default "60000" .Values.ingress.private.connect_timeout_ms }}
 {{- end }}

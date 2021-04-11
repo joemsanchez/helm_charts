@@ -1,7 +1,7 @@
 {{- if .Values.persistence }}
 {{- if or .Values.disableDeploy (not .Values.statefulset) }}
-{{- $gName :=  include "Generated.fullname" .}}
-{{- $gChart := include "Generated.chart" . }}
+{{- $gName :=  include "awx-operator.fullname" .}}
+{{- $gChart := include "awx-operator.chart" . }}
 {{- $gRelease :=  .Release.Name }}
 {{- $gHeritage := .Release.Service }}
 {{- range $index, $persist :=.Values.persistence }}

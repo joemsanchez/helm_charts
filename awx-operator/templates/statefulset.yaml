@@ -5,16 +5,16 @@
 
 
 {{- $ingressPath := .Values.ingress.path }}
-{{- $gName := include "Generated.fullname" .}}
-{{- $gChart := include "Generated.chart" . }}
+{{- $gName := include "awx-operator.fullname" .}}
+{{- $gChart := include "awx-operator.chart" . }}
 {{- $gRelease := .Release.Name }}
 {{- $gHeritage := .Release.Service }}
-{{- $nrAppName := include "Generated.newrelic.name" . }}
+{{- $nrAppName := include "awx-operator.newrelic.name" . }}
 {{- $nrEnable := default false .Values.newrelic }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "Generated.fullname" . }}
+  name: {{ include "awx-operator.fullname" . }}
   labels:
     app: {{ $gName }}
     chart: {{ $gChart }}
@@ -25,12 +25,12 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "Generated.name" . }}
+      app: {{ include "awx-operator.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ include "Generated.name" . }}
+        app: {{ include "awx-operator.name" . }}
         release: {{ .Release.Name }}
     spec:
       {{- if .Values.imagePullSecrets }}
