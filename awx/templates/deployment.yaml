@@ -48,16 +48,6 @@ spec:
           env:
             - name: "CORECLR_ENABLE_PROFILING"
               value: "{{ $nrEnable }}"
-            - name: "NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"
-              value: "{{ $nrEnable }}"
-            - name: "NEW_RELIC_APP_NAME"
-              value: "{{ $nrAppName }}"
-            {{- if eq $nrEnable true }}
-            - name: "NEW_RELIC_LICENSE_KEY"
-              valueFrom:
-                secretKeyRef:
-                  name: "main-credentials"
-                  key: "NEW_RELIC_LICENSE_KEY"
             {{- end }}
             {{- range $key, $value := .Values.env }}
             - name: "{{ $key }}"
