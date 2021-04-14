@@ -46,8 +46,6 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           env:
-            - name: "CORECLR_ENABLE_PROFILING"
-              value: "{{ $nrEnable }}"
             {{- end }}
             {{- range $key, $value := .Values.env }}
             - name: "{{ $key }}"
