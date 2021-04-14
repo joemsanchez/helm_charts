@@ -9,9 +9,9 @@ image:
   tag: 0.7.0
   pullPolicy: IfNotPresent
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+# imagePullSecrets: []
+# nameOverride: ""
+# fullnameOverride: ""
 
 env:
   # Watch all namespaces (cluster-scoped).
