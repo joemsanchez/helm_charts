@@ -4,29 +4,32 @@
 {{- if or (not .Values.statefulset) (not .Values.persistence) }}
 
 {{- $ingressPath := .Values.ingress.path }}
-{{- $gName := include "awx.fullname" .}}
-{{- $gChart := include "awx.chart" . }}
+{{- $gName := include "Generated.fullname" .}}
+{{- $gChart := include "Generated.chart" . }}
 {{- $gRelease := .Release.Name }}
 {{- $gHeritage := .Release.Service }}
+{{- $nrAppName := include "Generated.newrelic.name" . }}
+{{- $nrEnable := default false .Values.newrelic }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "awx.fullname" . }}
+  name: {{ include "Generated.fullname" . }}
   labels:
     app: {{ $gName }}
     chart: {{ $gChart }}
     release: {{ $gRelease }}
     heritage: {{ $gHeritage }}
+    version: {{  default .Values.image.tag 0}}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "awx.name" . }}
+      app: {{ include "Generated.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ include "awx.name" . }}
+        app: {{ include "Generated.name" . }}
         release: {{ .Release.Name }}
     spec:
       {{- if .Values.imagePullSecrets }}
@@ -45,7 +48,28 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- with .Values.command }}
+          command:
+{{ toYaml . | indent 12 }}
+          {{- end }}
+          {{- with .Values.args }}
+          args:
+{{ toYaml . | indent 12 }}
+          {{- end }}
           env:
+            {{- if eq $nrEnable true }}
+            - name: "CORECLR_ENABLE_PROFILING"
+              value: "1"
+            - name: "NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"
+              value: "true"
+            - name: "NEW_RELIC_APP_NAME"
+              value: "{{ $nrAppName }}"
+            - name: "NEW_RELIC_LICENSE_KEY"
+              valueFrom:
+                secretKeyRef:
+                  name: "main-credentials"
+                  key: "NEW_RELIC_LICENSE_KEY"
+            {{- end }}
             {{- range $key, $value := .Values.env }}
             - name: "{{ $key }}"
               value: "{{ $value }}"
@@ -85,6 +109,18 @@ spec:
               containerPort: 80
               protocol: TCP
           {{- if .Values.healthProbes }}
+          {{- if .Values.healthCheckOverride -}}
+          {{ with .Values.healthCheckOverride.livenessProbe }}
+          livenessProbe:
+{{ toYaml . | indent 12 }}
+          {{- end }}
+          {{ with .Values.healthCheckOverride.readinessProbe }}
+          readinessProbe:
+{{ toYaml . | indent 12 }}
+          {{- end }}
+
+          {{- else -}}
+
           {{ with .Values.livenessProbe }}
           livenessProbe:
             httpGet:
@@ -97,6 +133,7 @@ spec:
               path: {{ default "/" .path }}
               port: {{ default "80" .port }}
           {{- end }}
+          {{- end -}}
           {{- end }}
 
           resources:
@@ -137,4 +174,3 @@ spec:
 {{- end }}
 {{- end }}
 {{- end }}
-
