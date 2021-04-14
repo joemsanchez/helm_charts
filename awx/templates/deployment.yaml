@@ -4,16 +4,16 @@
 {{- if or (not .Values.statefulset) (not .Values.persistence) }}
 
 {{- $ingressPath := .Values.ingress.path }}
-{{- $gName := include "Generated.fullname" .}}
-{{- $gChart := include "Generated.chart" . }}
+{{- $gName := include "awx.fullname" .}}
+{{- $gChart := include "awx.chart" . }}
 {{- $gRelease := .Release.Name }}
 {{- $gHeritage := .Release.Service }}
-{{- $nrAppName := include "Generated.newrelic.name" . }}
+{{- $nrAppName := include "awx.newrelic.name" . }}
 {{- $nrEnable := default false .Values.newrelic }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "Generated.fullname" . }}
+  name: {{ include "awx.fullname" . }}
   labels:
     app: {{ $gName }}
     chart: {{ $gChart }}
@@ -23,12 +23,12 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "Generated.name" . }}
+      app: {{ include "awx.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ include "Generated.name" . }}
+        app: {{ include "awx.name" . }}
         release: {{ .Release.Name }}
     spec:
       {{- if .Values.imagePullSecrets }}
