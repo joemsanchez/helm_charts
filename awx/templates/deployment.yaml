@@ -8,8 +8,6 @@
 {{- $gChart := include "awx.chart" . }}
 {{- $gRelease := .Release.Name }}
 {{- $gHeritage := .Release.Service }}
-# {{- $nrAppName := include "Generated.newrelic.name" . }}
-# {{- $nrEnable := default false .Values.newrelic }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
