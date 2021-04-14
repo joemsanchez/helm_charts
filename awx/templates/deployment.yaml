@@ -34,7 +34,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-          {{- end }}          
+          # {{- end }}          
           ports:
             - name: http
               containerPort: 80
