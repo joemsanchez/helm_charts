@@ -81,3 +81,9 @@ affinity: {}
 volumes:
   - name: runner
     emptyDir: {}
+
+volumeMounts:
+ - name: ner 
+   mountPath: /tmp/ansible-operator/runner
+
+   
