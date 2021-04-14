@@ -83,7 +83,7 @@ volumes:
     emptyDir: {}
 
 volumeMounts:
- - name: ner 
+ - name: runner 
    mountPath: /tmp/ansible-operator/runner
 
    
