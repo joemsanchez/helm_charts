@@ -80,7 +80,7 @@ rules:
     verbs:
       - get
   - apiGroups:
-      - awx.ansible.com
+      - {{ .Values.ingress.tls.hosts }}
     resources:
       - '*'
     verbs:
