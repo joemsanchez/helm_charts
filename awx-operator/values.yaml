@@ -15,8 +15,7 @@ image:
 
 env:
   # Watch all namespaces (cluster-scoped).
-  OPERATOR_NAME: awx-operator
-  ANSIBLE_GATHERING: explicit
+  WATCH_NAMESPACE: awx-system
 
 rbac:
   # Specifies whether RBAC resources should be created

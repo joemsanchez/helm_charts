@@ -61,8 +61,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-            - name: WATCH_NAMESPACE
-              value: {{ Release.Namespace }}
             - name: OPERATOR_NAME
               value: awx-operator
             - name: ANSIBLE_GATHERING
