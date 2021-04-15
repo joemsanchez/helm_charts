@@ -4,8 +4,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: {{ .Release.Name }}
   labels:
-    app: {{ .Release.Name }}
-    chart: {{ .Release.chart }}
+    app: {{ template "Generated.name" . }}
+    chart: {{ template "Generated.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 subjects:
@@ -17,3 +17,4 @@ roleRef:
   name: {{ .Release.Name }}
   apiGroup: rbac.authorization.k8s.io
 {{- end -}}
+
