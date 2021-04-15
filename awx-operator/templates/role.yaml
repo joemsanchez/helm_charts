@@ -10,7 +10,7 @@ metadata:
     heritage: {{ .Release.Service }}
 rules:
 - apiGroups: ["*"]
-  resources: ["pods","awxs"]
+  resources: ["*"]
   verbs: ["get", "watch", "list"]
   resourceNames:
   - {{ template "Generated.fullname" . }}
