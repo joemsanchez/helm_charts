@@ -80,7 +80,7 @@ rules:
     verbs:
       - get
   - apiGroups:
-      - testservices.emrops.com
+      - awx.ansible.com
     resources:
       - '*'
     verbs:
