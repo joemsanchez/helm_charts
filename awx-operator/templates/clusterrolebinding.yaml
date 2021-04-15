@@ -2,32 +2,18 @@
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "Gemerated.fullname" . }}
+  name: {{ .Release.Name }}
   labels:
-    app: {{ template "Gemerated.name" . }}
-    chart: {{ template "Gemerated.chart" . }}
+    app: {{ .Release.Name }}
+    chart: {{ .Release.chart }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 subjects:
 - kind: ServiceAccount
-  name: {{ template "Gemerated.fullname" . }}
+  name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ template "Gemerated.fullname" . }}
+  name: {{ .Release.Name }}
   apiGroup: rbac.authorization.k8s.io
 {{- end -}}
-
-
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: awx-operator
-subjects:
-  - kind: ServiceAccount
-    name: awx-operator
-    namespace: awx-system
-roleRef:
-  kind: ClusterRole
-  name: awx-operator
-  apiGroup: rbac.authorization.k8s.io
