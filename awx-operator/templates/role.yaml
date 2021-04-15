@@ -1,0 +1,18 @@
+{{- if .Values.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ template "Generated.name" . }}
+    chart: {{ template "Generated.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+rules:
+- apiGroups: ["awx.ansible.com"]
+  resources: ["awxs"]
+  verbs: ["get", "watch", "list"]
+  resourceNames:
+  - {{ template "Generated.fullname" . }}
+{{- end }}
+

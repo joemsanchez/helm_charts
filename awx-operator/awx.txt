@@ -15,7 +15,7 @@ spec:
       serviceAccountName: awx-operator
       containers:
         - name: awx-operator
-          image: "quay.io/ansible/awx-operator:0.7.0"
+          image: "quay.io/ansible/awx-operator:0.8.0"
           imagePullPolicy: "Always"
           volumeMounts:
             - mountPath: /tmp/ansible-operator/runner

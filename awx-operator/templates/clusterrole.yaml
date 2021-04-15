@@ -1,8 +1,14 @@
+{{- if .Values.rbac.create -}}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   creationTimestamp: null
-  name: awx-operator
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ template "Generated.name" . }}
+    chart: {{ template "Generated.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 rules:
   - apiGroups:
       - route.openshift.io
@@ -79,4 +85,5 @@ rules:
       - '*'
     verbs:
       - '*'
+{{- end -}}
    

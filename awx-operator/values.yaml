@@ -1,0 +1,86 @@
+# Default values for awx.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: quay.io/ansible/awx-operator
+  tag: 0.8.0
+  pullPolicy: IfNotPresent
+
+# imagePullSecrets: []
+# nameOverride: ""
+# fullnameOverride: ""
+
+env:
+  # Watch all namespaces (cluster-scoped).
+  WATCH_NAMESPACE: awx-system
+
+rbac:
+  # Specifies whether RBAC resources should be created
+  create: true
+
+serviceAccount:
+  create: true
+  name: awx-operator
+
+installCRDs: true  
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "awx"
+    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/add-base-url: "true"
+  path: /awx
+  hosts:
+    - testservices.emrops.com
+  tls:
+  - hosts:
+    - testservices.emrops.com
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 6789
+  initialDelaySeconds: 15
+  periodSeconds: 20
+
+server:
+  statefulSet:
+    enabled: true
+  persistentVolume:
+    size: 20Gi
+    storageClass: "data-delete-sc"  
+
+volumeMounts:
+ - name: runner 
+   mountPath: /tmp/ansible-operator/runner
+
+volumes:
+  - name: runner
+    emptyDir: {}
+
+
+
+   

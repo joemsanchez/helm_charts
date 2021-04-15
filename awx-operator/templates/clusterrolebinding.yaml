@@ -2,18 +2,19 @@
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "awx.fullname" . }}
+  name: {{ .Release.Name }}
   labels:
-    app: {{ template "awx.name" . }}
-    chart: {{ template "awx.chart" . }}
+    app: {{ template "Generated.name" . }}
+    chart: {{ template "Generated.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 subjects:
 - kind: ServiceAccount
-  name: {{ template "awx.fullname" . }}
+  name: default
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ template "awx.fullname" . }}
+  name: {{ .Release.Name }}
   apiGroup: rbac.authorization.k8s.io
 {{- end -}}
+
