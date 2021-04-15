@@ -14,7 +14,7 @@ subjects:
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: default
+  name: {{ .Release.Name }}
   apiGroup: rbac.authorization.k8s.io
 {{- end -}}
 
