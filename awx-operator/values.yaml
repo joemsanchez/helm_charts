@@ -16,7 +16,6 @@ image:
 env:
   # Watch all namespaces (cluster-scoped).
   WATCH_NAMESPACE: awx-system
-  POD_NAME: awx-operator-pod
   OPERATOR_NAME: awx-operator
   ANSIBLE_GATHERING: explicit
 
