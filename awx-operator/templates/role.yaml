@@ -9,9 +9,9 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 rules:
-- apiGroups: ["*"]
-  resources: ["*"]
-  verbs: ["*"]
+- apiGroups: ["pods","awx.ansible.com"]
+  resources: ["pods","awxs"]
+  verbs: ["get", "watch", "list"]
   resourceNames:
   - {{ template "Generated.fullname" . }}
 {{- end }}
