@@ -323,5 +323,13 @@ spec:
                   type: array
               type: object
           type: object
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Release.Name }}
+  apiGroup: rbac.authorization.k8s.io          
 {{- end -}} 
 {{- end -}}         
