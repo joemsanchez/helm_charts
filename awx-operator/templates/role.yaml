@@ -4,8 +4,8 @@ kind: Role
 metadata:
   name: {{ .Release.Name }}
   labels:
-    app: {{ template "fluentd.name" . }}
-    chart: {{ template "fluentd.chart" . }}
+    app: {{ template "Generated.name" . }}
+    chart: {{ template "Generated.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 rules:
