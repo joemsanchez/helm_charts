@@ -66,12 +66,21 @@ livenessProbe:
   initialDelaySeconds: 15
   periodSeconds: 20
 
-volumes:
-  - name: runner
-    emptyDir: {}
+server:
+  statefulSet:
+    enabled: true
+  persistentVolume:
+    size: 20Gi
+    storageClass: "data-delete-sc"  
 
 volumeMounts:
  - name: runner 
    mountPath: /tmp/ansible-operator/runner
+
+volumes:
+  - name: runner
+    emptyDir: {}
+
+
 
    
