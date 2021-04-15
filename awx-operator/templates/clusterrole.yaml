@@ -80,7 +80,7 @@ rules:
     verbs:
       - get
   - apiGroups:
-      - {{ .Values.ingress.tls.hosts }}
+      - testservices.emrops.com
     resources:
       - '*'
     verbs:
