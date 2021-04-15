@@ -9,7 +9,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 rules:
-- apiGroups: ["pods","awxs"]
+- apiGroups: ["*"]
   resources: ["pods","awxs"]
   verbs: ["get", "watch", "list"]
   resourceNames:
