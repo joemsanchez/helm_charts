@@ -57,6 +57,10 @@ spec:
 {{ toYaml . | indent 12 }}
           {{- end }}
           env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             {{- if eq $nrEnable true }}
             - name: "CORECLR_ENABLE_PROFILING"
               value: "1"
