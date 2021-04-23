@@ -77,7 +77,7 @@ persistence:
     spec:
       storageClassName: "data-delete-sc"
       accessModes:
-        - ReadWriteOnce
+        - ReadWriteMany
       volumeMode: Filesystem
       resources:
         requests:
