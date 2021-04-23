@@ -72,7 +72,7 @@ volumes:
     emptyDir: {}
 
 persistence:
-  - name: tower_projects
+  - name: tower-projects
     mountPath: /var/lib/projects
     spec:
       storageClassName: "data-delete-sc"
