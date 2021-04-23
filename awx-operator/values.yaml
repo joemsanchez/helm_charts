@@ -72,16 +72,15 @@ volumes:
     emptyDir: {}
 
 persistence:
- - name: tower_projects
-   mountPath: /var/lib/projects
-   spec:
-     storageClassName: "data-delete-sc"
-     accessModes:
-       - ReadWriteOnce
-     volumeMode: Filesystem
-#      resources:
-       requests:
-         storage: 8Gi    
+  - name: tower_projects
+    mountPath: /var/lib/projects
+    spec:
+      storageClassName: "data-delete-sc"
+      accessModes:
+        - ReadWriteOnce
+      volumeMode: Filesystem
+        requests:
+          storage: 8Gi    
 
 
 
