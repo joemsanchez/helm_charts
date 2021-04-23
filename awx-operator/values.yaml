@@ -71,6 +71,18 @@ volumes:
   - name: runner
     emptyDir: {}
 
+persistence:
+ - name: tower_projects
+   mountPath: /var/lib/projects
+   spec:
+     storageClassName: "data-delete-sc"
+     accessModes:
+       - ReadWriteOnce
+     volumeMode: Filesystem
+#      resources:
+       requests:
+         storage: 8Gi    
+
 
 
    
