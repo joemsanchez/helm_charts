@@ -1,0 +1,14 @@
+apiVersion: v1
+appVersion: "1.1.0"
+home: "https://github.com/woodjme/exp-helm-charts"
+description: This Chart seemlessly integrates Kubernetes with AWS ECR
+name: aws-ecr-credential
+maintainers:
+  - name: woodjme
+    email: me@jamiewood.io
+version: 1.1.0
+keywords:
+- aws ecr
+- imagePullSecrets
+- kubernetes
+- authentication

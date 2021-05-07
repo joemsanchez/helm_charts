@@ -57,6 +57,16 @@ spec:
 {{ toYaml . | indent 12 }}
           {{- end }}
           env:
+            - name: ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: accessKeyId
+                  key: AWS_ACCESS_KEY_ID
+            - name: SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: secretAccessKey
+                  key: AWS_SECRET_ACCESS_KEY
             {{- if eq $nrEnable true }}
             - name: "CORECLR_ENABLE_PROFILING"
               value: "1"
