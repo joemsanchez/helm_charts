@@ -42,7 +42,7 @@ affinity: {}
 
 persistence: []
 
-cronJob: 
+cronJob:
   - name: cronjob
     interpolate: true
     spec:
@@ -62,7 +62,7 @@ cronJob:
                 image: "{{ .Values.image.repository }}"
                 tag: "{{ .Values.image.tag }}"
 # need to get id and access key from???
-                args: 
+                args:
                   - "/bin/sh"
                   - "-c"
                   - |
