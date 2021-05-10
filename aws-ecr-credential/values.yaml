@@ -9,19 +9,10 @@ image:
 env:
   account: "983708293885"
   region: us-east-1
-- name: ACCESS_KEY_ID
-  valueFrom:
-    secretKeyRef:
-      name: accessKeyId
-      key: accessKeyId
-- name: SECRET_ACCESS_KEY
-  valueFrom:
-    secretKeyRef:
-      name: secretAccessKey
-      key: secretAccessKey
-# envSecrets:
-#   accessKeyId: "aws-ecr-credentials-secret"
-#   secretAccessKey: "aws-ecr-credentials-secret"
+
+envSecrets:
+  accessKeyId: "aws-ecr-credentials-secret"
+  secretAccessKey: "aws-ecr-credentials-secret"
 
 mountSecret:
   - aws-ecr-credentials-secret
