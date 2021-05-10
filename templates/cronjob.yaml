@@ -97,7 +97,7 @@ spec:
                 echo "DOCKER_REGISTRY_SERVER=$DOCKER_REGISTRY_SERVER"
                 echo "DOCKER_USER=$DOCKER_USER"
                 echo "DOCKER_PASSWORD=$DOCKER_PASSWORD"a
-                {{ range .Values.namespace }}
+                {{ range $mainScope.Values.namespace }}
                   kubectl delete secret --namespace {{ . }} aws-registry --ignore-not-found=true
                   kubectl create secret --namespace {{ . }} docker-registry aws-registry \
                   --docker-server=$DOCKER_REGISTRY_SERVER \
