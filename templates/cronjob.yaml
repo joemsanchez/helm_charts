@@ -78,6 +78,7 @@ spec:
               - name: {{ $persist.name }}
                 mountPath: {{ $persist.mountPath }}
               {{- end }}
+              
               command:
               - "/bin/sh"
               - "-c"
@@ -93,7 +94,6 @@ spec:
                 DOCKER_REGISTRY_SERVER=https://${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com
                 DOCKER_USER=AWS
                 DOCKER_PASSWORD=$(aws ecr get-login-password --region ${AWS_REGION})
-#!
                 echo "DOCKER_REGISTRY_SERVER=$DOCKER_REGISTRY_SERVER"
                 echo "DOCKER_USER=$DOCKER_USER"
                 echo "DOCKER_PASSWORD=$DOCKER_PASSWORD"a
