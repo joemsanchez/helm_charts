@@ -9,6 +9,8 @@ image:
 env:
   account: "983708293885"
   region: us-east-1
+  accessKeyId:
+  secretAccessKey:
 
 service: {}
 
