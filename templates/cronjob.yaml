@@ -82,13 +82,13 @@ spec:
               - "/bin/sh"
               - "-c"
               - |
-                AWS_ACCOUNT={{ .Values.env.account }}
-                AWS_REGION={{ .Values.env.region }}
+                AWS_ACCOUNT={{ $mainScope.Values.env.account }}
+                AWS_REGION={{ $mainScope.Values.env.region }}
                 echo "AWS_ACCOUNT=$AWS_ACCOUNT"
                 echo "AWS_REGION=$AWS_REGION"
 
-                aws configure set aws_access_key_id $(.Values.env.accessKeyId)
-                aws configure set aws_secret_access_key $(.Values.env.secretAccessKey)
+                aws configure set aws_access_key_id $($mainScope.Values.env.accessKeyId)
+                aws configure set aws_secret_access_key $($mainScope.Values.env.secretAccessKey)
 
                 DOCKER_REGISTRY_SERVER=https://${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com
                 DOCKER_USER=AWS
@@ -97,7 +97,7 @@ spec:
                 echo "DOCKER_REGISTRY_SERVER=$DOCKER_REGISTRY_SERVER"
                 echo "DOCKER_USER=$DOCKER_USER"
                 echo "DOCKER_PASSWORD=$DOCKER_PASSWORD"a
-                {{ range .Values.namespace }}
+                {{ range $mainScope.Values.namespace }}
                   kubectl delete secret --namespace {{ . }} aws-registry --ignore-not-found=true
                   kubectl create secret --namespace {{ . }} docker-registry aws-registry \
                   --docker-server=$DOCKER_REGISTRY_SERVER \
