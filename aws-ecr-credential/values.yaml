@@ -14,7 +14,7 @@ envSecrets:
   accessKeyId: "aws-ecr-credentials-secret"
   secretAccessKey: "aws-ecr-credentials-secret"
 
-imagePullSecrets: aws-ecr-credentials-secret
+imagePullSecrets: aws-registry
 
 mountSecret:
   - aws-ecr-credentials-secret
