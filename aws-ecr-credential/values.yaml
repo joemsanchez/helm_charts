@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: hub.emrops.com/external/aws-ecr-credential
-  tag: 1.0
+  repository: woodjme/aws-kubectl
+  tag: latest
   pullPolicy: IfNotPresent
 
 # move creds here/pass from gitops chart
