@@ -10,13 +10,6 @@ env:
   account: "983708293885"
   region: us-east-1
 
-envSecrets:
-  accessKeyId: "aws-ecr-credentials-secret"
-  secretAccessKey: "aws-ecr-credentials-secret"
-
-mountSecret:
-  - aws-ecr-credentials-secret
-
 service: {}
 
 serviceAccount:
