@@ -21,6 +21,10 @@ mountSecret:
 
 service: {}
 
+serviceAccount:
+  create: true
+  name: awx-operator
+
 alias: false
 disableDeploy: true
 healthProbes: false
