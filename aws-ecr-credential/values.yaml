@@ -13,12 +13,12 @@ env:
   valueFrom:
     secretKeyRef:
       name: accessKeyId
-      key: AWS_ACCESS_KEY_ID
+      key: accessKeyId
 - name: SECRET_ACCESS_KEY
   valueFrom:
     secretKeyRef:
       name: secretAccessKey
-      key: AWS_SECRET_ACCESS_KEY
+      key: secretAccessKey
 # envSecrets:
 #   accessKeyId: "aws-ecr-credentials-secret"
 #   secretAccessKey: "aws-ecr-credentials-secret"
