@@ -14,8 +14,6 @@ envSecrets:
   accessKeyId: "aws-ecr-credentials-secret"
   secretAccessKey: "aws-ecr-credentials-secret"
 
-imagePullSecrets: aws-registry
-
 mountSecret:
   - aws-ecr-credentials-secret
 
@@ -23,7 +21,7 @@ service: {}
 
 serviceAccount:
   create: true
-  name: awx-operator
+  name: aws-registry
 
 alias: false
 disableDeploy: true
