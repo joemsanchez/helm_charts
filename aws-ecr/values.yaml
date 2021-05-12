@@ -58,6 +58,7 @@ cronJob:
               - name: job
                 image: "{{ .Values.image.repository }}"
                 tag: "{{ .Values.image.tag }}"
+                args: []
                 command:
                 - "/bin/sh"
                 - "-c"
