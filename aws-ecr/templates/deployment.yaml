@@ -1,0 +1,176 @@
+{{- if .Values.image }}
+{{- if not .Values.disableDeploy }}
+{{- if ne .Values.image.repository "" }}
+{{- if or (not .Values.statefulset) (not .Values.persistence) }}
+
+{{- $ingressPath := .Values.ingress.path }}
+{{- $gName := include "Generated.fullname" .}}
+{{- $gChart := include "Generated.chart" . }}
+{{- $gRelease := .Release.Name }}
+{{- $gHeritage := .Release.Service }}
+{{- $nrAppName := include "Generated.newrelic.name" . }}
+{{- $nrEnable := default false .Values.newrelic }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "Generated.fullname" . }}
+  labels:
+    app: {{ $gName }}
+    chart: {{ $gChart }}
+    release: {{ $gRelease }}
+    heritage: {{ $gHeritage }}
+    version: {{  default .Values.image.tag 0}}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "Generated.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "Generated.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- range .Values.imagePullSecrets }}
+        - name: {{ . }}
+        {{- end }}
+      {{- end }}
+
+
+      {{- with .Values.initContainers }}
+      initContainers:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- with .Values.command }}
+          command:
+{{ toYaml . | indent 12 }}
+          {{- end }}
+          {{- with .Values.args }}
+          args:
+{{ toYaml . | indent 12 }}
+          {{- end }}
+          env:
+            {{- if eq $nrEnable true }}
+            - name: "CORECLR_ENABLE_PROFILING"
+              value: "1"
+            - name: "NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"
+              value: "true"
+            - name: "NEW_RELIC_APP_NAME"
+              value: "{{ $nrAppName }}"
+            - name: "NEW_RELIC_LICENSE_KEY"
+              valueFrom:
+                secretKeyRef:
+                  name: "main-credentials"
+                  key: "NEW_RELIC_LICENSE_KEY"
+            {{- end }}
+            {{- range $key, $value := .Values.env }}
+            - name: "{{ $key }}"
+              value: "{{ $value }}"
+            {{- end }}
+            {{- range $key, $secret := $.Values.envSecrets }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secret }}
+                  key: {{ $key | quote }}
+            {{- end }}
+            {{- range $key, $config := $.Values.envConfigurations }}
+            - name: {{ $key }}
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ $config }}
+                  key: {{ $key | quote }}
+            {{- end }}
+
+          volumeMounts:
+            {{- if $.Values.mountSecret }}
+            - name: pv-secret
+              mountPath: "/var/secret"
+              readOnly: true
+            {{- end }}
+            {{- range $persist :=.Values.persistence }}
+            - name: {{ $persist.name }}
+              mountPath: {{ $persist.mountPath }}
+            {{- end }}
+            {{- with .Values.volumeMounts }}
+{{ toYaml . | indent 12 }}
+            {{- end }}
+
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          {{- if .Values.healthProbes }}
+          {{- if .Values.healthCheckOverride -}}
+          {{ with .Values.healthCheckOverride.livenessProbe }}
+          livenessProbe:
+{{ toYaml . | indent 12 }}
+          {{- end }}
+          {{ with .Values.healthCheckOverride.readinessProbe }}
+          readinessProbe:
+{{ toYaml . | indent 12 }}
+          {{- end }}
+
+          {{- else -}}
+
+          {{ with .Values.livenessProbe }}
+          livenessProbe:
+            httpGet:
+              path: {{ default "/" .path }}
+              port: {{ default "80" .port }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe:
+            httpGet:
+              path: {{ default "/" .path }}
+              port: {{ default "80" .port }}
+          {{- end }}
+          {{- end -}}
+          {{- end }}
+
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+
+      volumes:
+        {{- if $.Values.mountSecret }}
+        - name: pv-secret
+          {{- range $value := .Values.mountSecret }}
+          secret:
+            secretName: {{ $value }}
+          {{- end }}
+        {{- end }}
+        {{- range $persist :=.Values.persistence }}
+        - name: {{ $persist.name }}
+          persistentVolumeClaim:
+            claimName: {{ $gName }}-{{ $persist.name }}
+        {{- end }}
+      {{- with .Values.volumes }}
+{{ toYaml . | indent 8 }}
+      {{- end }}
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+
+      {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+
+      {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
