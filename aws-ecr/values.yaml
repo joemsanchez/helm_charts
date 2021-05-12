@@ -14,6 +14,10 @@ envSecrets:
   aws_access_key_id: "aws-ecr-credentials"
   aws_secret_access_key: "aws-ecr-credentials"
 
+secret:
+  external: true
+  prefix: /hq/k8s/devops-dev/ecr/aws-ecr-credentials
+
 service: {}
 
 alias: false
