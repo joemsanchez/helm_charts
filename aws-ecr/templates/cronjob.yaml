@@ -83,8 +83,8 @@ spec:
               - "/bin/sh"
               - "-c"
               - |
-                AWS_ACCOUNT={{ .Values.env.account }}
-                AWS_REGION={{ .Values.env.region }}
+                AWS_ACCOUNT={{ $mainScope.Values.env.account }}
+                AWS_REGION={{ $mainScope.Values.env.region }}
                 echo "AWS_ACCOUNT=$AWS_ACCOUNT"
                 echo "AWS_REGION=$AWS_REGION"
 
