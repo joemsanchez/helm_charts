@@ -15,8 +15,7 @@ env:
   value: "us-east-1"
 - name: "AWS_DEFAULT_REGION"
   value: "us-east-1"
-- name: "account"
-  value: "983708293885"
+- account: "983708293885"
 
 envSecrets:
   aws_access_key_id: "aws-ecr-credentials"
