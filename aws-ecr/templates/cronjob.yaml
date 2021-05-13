@@ -106,7 +106,7 @@ spec:
                   --docker-password=$DOCKER_PASSWORD \
                   --docker-email=no@email.local
                 {{ end }}
-                kubectl patch serviceaccount default -p '{"imagePullSecrets":[{"name":"{{ $gReleaseName }}"}]}'
+                kubectl patch serviceaccount aws-ecr -p '{"imagePullSecrets":[{"name":"aws-registry"}]}'
             {{- end }}
 
           volumes:
