@@ -10,17 +10,17 @@ env:
   account: "983708293885"
   region: us-east-1
 
-# envSecrets:
-#   aws_access_key_id: "aws-ecr-credentials"
-#   aws_secret_access_key: "aws-ecr-credentials"
+envSecrets:
+  aws_access_key_id: "aws-ecr-credentials"
+  aws_secret_access_key: "aws-ecr-credentials"
 
-envVarsFromSecret:
-  aws_access_key_id:
-    secretKeyRef: aws-ecr-credentials
-    key: aws_access_key_id
-  aws_secret_access_key:
-    secretKeyRef: aws-ecr-credentials
-    key: aws_secret_access_key
+# envVarsFromSecret:
+#   aws_access_key_id:
+#     secretKeyRef: aws-ecr-credentials
+#     key: aws_access_key_id
+#   aws_secret_access_key:
+#     secretKeyRef: aws-ecr-credentials
+#     key: aws_secret_access_key
 
 secret:
   external: true
