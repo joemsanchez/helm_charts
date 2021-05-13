@@ -86,7 +86,7 @@ spec:
                 AWS_ACCOUNT={{ $mainScope.Values.env.account }}
                 AWS_REGION={{ $mainScope.Values.env.region }}
                 echo "AWS_ACCOUNT=$AWS_ACCOUNT"
-                echo "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION"
+                echo "AWS_DEFAULT_REGION=$AWS_REGION"
 
                 aws configure set aws_access_key_id $(ACCESS_KEY_ID)
                 aws configure set aws_secret_access_key $(SECRET_ACCESS_KEY)
