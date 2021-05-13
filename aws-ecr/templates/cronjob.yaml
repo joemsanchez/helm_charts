@@ -86,14 +86,14 @@ spec:
                 AWS_ACCOUNT={{ $mainScope.Values.env.account }}
                 AWS_REGION={{ $mainScope.Values.env.region }}
                 echo "AWS_ACCOUNT=$AWS_ACCOUNT"
-                echo "AWS_DEFAULT_REGION=$AWS_REGION"
+                echo "AWS_REGION=$AWS_REGION"
 
                 aws configure set aws_access_key_id $(ACCESS_KEY_ID)
                 aws configure set aws_secret_access_key $(SECRET_ACCESS_KEY)
 
-                DOCKER_REGISTRY_SERVER=https://${AWS_ACCOUNT}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
+                DOCKER_REGISTRY_SERVER=https://${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com
                 DOCKER_USER=AWS
-                DOCKER_PASSWORD=$(aws ecr get-login-password --region ${AWS_DEFAULT_REGION})
+                DOCKER_PASSWORD=$(aws ecr get-login-password --region ${AWS_REGION})
 
                 echo "DOCKER_REGISTRY_SERVER=$DOCKER_REGISTRY_SERVER"
                 echo "DOCKER_USER=$DOCKER_USER"
@@ -106,7 +106,7 @@ spec:
                   --docker-password=$DOCKER_PASSWORD \
                   --docker-email=no@email.local
                 {{ end }}
-                kubectl patch serviceaccount default -p '{"imagePullSecrets":["name":"{{ $gReleaseName }}"]}'
+                kubectl patch serviceaccount default -p '{"imagePullSecrets":["name":"{{ .$gReleaseName }}"]}'
             {{- end }}
 
           volumes:
