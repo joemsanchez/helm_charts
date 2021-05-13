@@ -11,7 +11,7 @@ image:
 #   region: us-east-1
 
 env:
-- name: "AWS_REGION"
+- name: "region"
   value: "us-east-1"
 - name: "AWS_DEFAULT_REGION"
   value: "us-east-1"
