@@ -5,17 +5,9 @@ image:
   tag: 1.19.5
   pullPolicy: IfNotPresent
 
-# move creds here/pass from gitops chart
-# env:
-#   account: "983708293885"
-#   region: us-east-1
-
 env:
-- name: "AWS_REGION"
-  value: "us-east-1"
-- name: "AWS_DEFAULT_REGION"
-  value: "us-east-1"
-- account: "983708293885"
+  account: "983708293885"
+  region: us-east-1
 
 envSecrets:
   aws_access_key_id: "aws-ecr-credentials"
