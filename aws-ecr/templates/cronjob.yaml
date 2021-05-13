@@ -88,8 +88,8 @@ spec:
                 echo "AWS_ACCOUNT=$AWS_ACCOUNT"
                 echo "AWS_REGION=$AWS_REGION"
 
-                aws configure set aws_access_key_id $(ACCESS_KEY_ID)
-                aws configure set aws_secret_access_key $(SECRET_ACCESS_KEY)
+                aws configure set aws_access_key_id $(aws_access_key_id)
+                aws configure set aws_secret_access_key $(aws_secret_access_key)
 
                 DOCKER_REGISTRY_SERVER=https://${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com
                 DOCKER_USER=AWS
