@@ -16,7 +16,7 @@ envSecrets:
 
 secret:
   external: true
-  prefix: /hq/k8s/devops-dev
+  prefix: /hq/k8s/devops-dev/ecr
 
 service: {}
 
