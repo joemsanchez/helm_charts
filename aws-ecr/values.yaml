@@ -6,7 +6,7 @@ image:
   pullPolicy: IfNotPresent
 
 env:
-  account: 983708293885
+  account: "983708293885"
   region: us-east-1
 
 envSecrets:
