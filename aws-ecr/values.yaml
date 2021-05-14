@@ -1,8 +1,12 @@
 replicaCount: 1
 
 image:
-  repository: woodjme/aws-kubectl
-  tag: latest
+  # repository: woodjme/aws-kubectl
+  # tag: latest
+  # pullPolicy: IfNotPresent
+
+  repository: hub.emrops.com/external/aws-cli
+  tag: 1.19.5
   pullPolicy: IfNotPresent
 
 env:
