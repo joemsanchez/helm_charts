@@ -47,10 +47,7 @@ affinity: {}
 persistence: []
 
 script: |+
-  AWS_ACCOUNT: {{ .Values.env.account }}
-  AWS_REGION: {{ .Values.env.region }}
-  echo "AWS_ACCOUNT:$AWS_ACCOUNT"
-  echo "AWS_REGION:$AWS_REGION"
+  echo content
 
 cronJob:
   - name: cronjob
