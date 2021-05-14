@@ -18,5 +18,5 @@ data:
 {{- if .Values.script }}
   job.sh: |-
     #!/bin/sh
-    {{ toYaml .Values.script }}
+    {{ .Values.script }}
 {{- end }}
