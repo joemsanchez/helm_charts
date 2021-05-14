@@ -72,6 +72,7 @@ cronJob:
                   command: ["/bin/sh", "-c"]
 
                   args:
-                    - echo content
+                    - AWS_ACCOUNT:{{ .Values.env.account }}
+                      echo "AWS_ACCOUNT=$AWS_ACCOUNT"
 
 
