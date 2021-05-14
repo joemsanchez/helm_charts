@@ -17,6 +17,9 @@ secret:
   external: true
   prefix: /hq/k8s/devops-dev
 
+rbac:
+  create: true
+  
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
