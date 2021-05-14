@@ -73,6 +73,8 @@ cronJob:
 
                   args:
                     - AWS_ACCOUNT:{{ .Values.env.account }}
-                      echo "AWS_ACCOUNT=$AWS_ACCOUNT"
+                      AWS_REGION:{{ .Values.env.region }}
+                      echo "AWS_ACCOUNT:$AWS_ACCOUNT"
+                      echo "AWS_REGION:$AWS_REGION"
 
 
