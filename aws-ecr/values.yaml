@@ -65,11 +65,7 @@ cronJob:
                 - name: job
                   image: "{{ .Values.image.repository }}"
                   tag: "{{ .Values.image.tag }}"
-                  command:
-                  - "/bin/sh"
-                  - "-c"
-                  args:
-                  - /usr/bin/tail -- -f /dev/null
+                  command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
               # command:
               # - "/bin/sh"
               # - "-c"
