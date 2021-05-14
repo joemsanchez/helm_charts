@@ -46,9 +46,6 @@ affinity: {}
 
 persistence: []
 
-script: |+
-  echo content
-
 cronJob:
   - name: cronjob
     interpolate: true
@@ -70,6 +67,7 @@ cronJob:
                   tag: "{{ .Values.image.tag }}"
                   command: ["/bin/sh", "-c"]
 
-                  args: []
+                  args:
+                    - echo content
 
 
