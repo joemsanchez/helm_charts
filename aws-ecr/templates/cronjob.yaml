@@ -99,14 +99,15 @@ spec:
                 echo "DOCKER_USER=$DOCKER_USER"
                 echo "DOCKER_PASSWORD=$DOCKER_PASSWORD"a
                 {{ range $mainScope.Values.Namespaces }}
-                  kubectl delete secret --namespace {{ . }} aws-ecr-credentials  --ignore-not-found=true
-                  kubectl create secret --namespace {{ . }} aws-ecr-credentials  \
+                  kubectl delete secret --namespace {{ . }} aws-registry --ignore-not-found=true
+                  kubectl create secret --namespace {{ . }} aws-registry \
                   --docker-server=$DOCKER_REGISTRY_SERVER \
                   --docker-username=$DOCKER_USER \
                   --docker-password=$DOCKER_PASSWORD \
                   --docker-email=no@email.local
                 {{ end }}
-                kubectl patch serviceaccount aws-ecr -p '{"imagePullSecrets":[{"name":"aws-registry"}]}'
+                echo {{ $mainScope.Values.serviceAccount.name }}
+                kubectl patch serviceaccount {{ $mainScope.Values.serviceAccount }} -p '{"imagePullSecrets":[{"name":"aws-registry"}]}'
             {{- end }}
 
           volumes:
