@@ -93,6 +93,7 @@ cronJob:
                       --docker-email=no@email.local
                     {{ end }}
                     kubectl patch serviceaccount {{ .Values.serviceAccount.name }} -p '{"imagePullSecrets":[{"name":"aws-registry"}]}'
+                args: []
 
 
 
