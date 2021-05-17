@@ -1,9 +1,9 @@
 replicaCount: 1
 
-# image:
-#   repository: hub.emrops.com/external/aws-cli
-#   tag: 1.19.5
-#   pullPolicy: IfNotPresent
+image:
+  repository: hub.emrops.com/external/aws-cli
+  tag: 1.19.5
+  pullPolicy: IfNotPresent
 
 env:
   account: "983708293885"
@@ -24,7 +24,7 @@ serviceAccount:
 service: {}
 
 alias: false
-# disableDeploy: true
+disableDeploy: true
 healthProbes: false
 
 ingress:
@@ -63,8 +63,8 @@ cronJob:
               activeDeadlineSeconds: 600
               containers:
                 - name: job
-                  image: hub.emrops.com/external/aws-cli
-                  tag: 1.19.5
+                  image: "{{ .Values.image.repository }}"
+                  tag: "{{ .Values.image.tag }}"
               command:
               - "/bin/sh"
               - "-c"
