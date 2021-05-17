@@ -68,5 +68,7 @@ cronJob:
                   command:
                     - "/bin/sh"
                     - "-c"
+
+                  args:  
                     - echo "Test"
                     - echo "This out"
