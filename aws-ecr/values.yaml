@@ -65,28 +65,28 @@ cronJob:
                 - name: job
                   image: "{{ .Values.image.repository }}"
                   tag: "{{ .Values.image.tag }}"
-              command:
-                - "/bin/sh"
-                - "-c"
-                - |+
-                  AWS_ACCOUNT={{ .Values.env.account }}
-                  AWS_REGION={{ .Values.env.region }}
-                  echo "AWS_ACCOUNT=$AWS_ACCOUNT"
-                  echo "AWS_REGION=$AWS_REGION"
-                  aws configure set aws_access_key_id $(aws_access_key_id)
-                  aws configure set aws_secret_access_key $(aws_secret_access_key)
-                  DOCKER_REGISTRY_SERVER=https://${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com
-                  DOCKER_USER=AWS
-                  DOCKER_PASSWORD=$(aws ecr get-login-password --region ${AWS_REGION})
-                  echo "DOCKER_REGISTRY_SERVER=$DOCKER_REGISTRY_SERVER"
-                  echo "DOCKER_USER=$DOCKER_USER"
-                  echo "DOCKER_PASSWORD=$DOCKER_PASSWORD"
-                  {{ range .Values.Namespaces }}
-                    kubectl delete secret --namespace {{ . }} aws-registry --ignore-not-found=true
-                    kubectl create secret --namespace {{ . }} aws-registry \
-                    --docker-server=$DOCKER_REGISTRY_SERVER \
-                    --docker-username=$DOCKER_USER \
-                    --docker-password=$DOCKER_PASSWORD \
-                    --docker-email=no@email.local
-                  {{ end }}
-                  kubectl patch serviceaccount {{ .Values.serviceAccount.name }} -p '{"imagePullSecrets":[{"name":"aws-registry"}]}'
+                  command:
+                    - "/bin/sh"
+                    - "-c"
+                    - |+
+                      AWS_ACCOUNT={{ .Values.env.account }}
+                      AWS_REGION={{ .Values.env.region }}
+                      echo "AWS_ACCOUNT=$AWS_ACCOUNT"
+                      echo "AWS_REGION=$AWS_REGION"
+                      aws configure set aws_access_key_id $(aws_access_key_id)
+                      aws configure set aws_secret_access_key $(aws_secret_access_key)
+                      DOCKER_REGISTRY_SERVER=https://${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com
+                      DOCKER_USER=AWS
+                      DOCKER_PASSWORD=$(aws ecr get-login-password --region ${AWS_REGION})
+                      echo "DOCKER_REGISTRY_SERVER=$DOCKER_REGISTRY_SERVER"
+                      echo "DOCKER_USER=$DOCKER_USER"
+                      echo "DOCKER_PASSWORD=$DOCKER_PASSWORD"
+                      {{ range .Values.Namespaces }}
+                        kubectl delete secret --namespace {{ . }} aws-registry --ignore-not-found=true
+                        kubectl create secret --namespace {{ . }} aws-registry \
+                        --docker-server=$DOCKER_REGISTRY_SERVER \
+                        --docker-username=$DOCKER_USER \
+                        --docker-password=$DOCKER_PASSWORD \
+                        --docker-email=no@email.local
+                      {{ end }}
+                      kubectl patch serviceaccount {{ .Values.serviceAccount.name }} -p '{"imagePullSecrets":[{"name":"aws-registry"}]}'
