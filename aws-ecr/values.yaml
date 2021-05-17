@@ -65,10 +65,10 @@ cronJob:
                 - name: job
                   image: "{{ .Values.image.repository }}"
                   tag: "{{ .Values.image.tag }}"
-                  command:
-                    - "/bin/sh"
-                    - "-c"
 
-                  args:  
-                    - echo "Test"
-                    - echo "This out"
+                  command: ["/bin/sh", "-c"]
+
+                  args:
+                    - |
+                      echo "Test"
+                      echo "This out"
