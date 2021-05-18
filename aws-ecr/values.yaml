@@ -46,11 +46,8 @@ affinity: {}
 
 persistence: []
 
-script: 
-  - "/bin/sh"
-  - "-c"    
-  - |
-    AWS_ACCOUNT={{ .Values.env.account }}
+script:
+  - AWS_ACCOUNT={{ .Values.env.account }}
     AWS_REGION={{ .Values.env.region }}
     echo "AWS_ACCOUNT=$AWS_ACCOUNT"
     echo "AWS_REGION=$AWS_REGION"
