@@ -39,11 +39,11 @@ spec:
               image: {{ tpl $container.image $mainScope }}:{{ tpl $container.tag $mainScope }}
               args:
               {{- range $container.args }}
-                - {{ . }}
+                - {{ . | quote }}
               {{- end }}
               command:
               {{- range $container.command }}
-                - {{ . }}
+                - {{ . | quote }}
               {{- end }}
 
               {{- if or $mainScope.Values.env $mainScope.Values.envSecrets $mainScope.Values.envConfigurations }}
