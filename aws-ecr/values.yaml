@@ -46,6 +46,12 @@ affinity: {}
 
 persistence: []
 
+volumes:
+- name: aws-ecr
+  configMap:
+    name: aws-ecr
+    defaultMode: 0777
+
 script:
   - AWS_ACCOUNT={{ .Values.env.account }}
     AWS_REGION={{ .Values.env.region }}
