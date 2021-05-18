@@ -1,0 +1,22 @@
+{{- $gName := include "Generated.fullname" .}}
+{{- $gChart := include "Generated.chart" . }}
+{{- $gReleaseName := .Release.Name }}
+{{- $gHeritage := .Release.Service }}
+{{- $version := .Values.image.tag }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $gName }}
+  labels:
+    app: {{ $gName }}
+    chart: {{ $gChart }}
+    release: {{ $gReleaseName }}
+    heritage: {{ $gHeritage }}
+    version: {{ $version | default "0" | quote }}
+data:
+{{- if .Values.script }}
+  job.sh: |-
+    #!/bin/sh
+    {{ .Values.script }}
+{{- end }}
