@@ -72,6 +72,10 @@ cronJob:
                   image: "{{ .Values.image.repository }}"
                   tag: "{{ .Values.image.tag }}"
                   command:
+                  volumeMounts:
+                    - mountPath: /aws-ecr
+                      name: aws-ecr
+
 
 
 
