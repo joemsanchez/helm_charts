@@ -69,8 +69,8 @@ cronJob:
                   - "/bin/sh"
                   - "-c"
                   - |
-                    AWS_ACCOUNT="{{ .Values.env.account }}"
-                    AWS_REGION="{{ .Values.env.region }}"
+                    AWS_ACCOUNT="{{- toYaml .Values.env.account }}"
+                    AWS_REGION="{{- toYaml .Values.env.region }}"
                     echo "AWS_ACCOUNT=$AWS_ACCOUNT"
                     echo "AWS_REGION=$AWS_REGION"
 
