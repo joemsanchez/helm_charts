@@ -46,7 +46,10 @@ affinity: {}
 
 persistence: []
 
-script: |
+script: 
+  - "/bin/sh"
+  - "-c"    
+  - |
     AWS_ACCOUNT={{ .Values.env.account }}
     AWS_REGION={{ .Values.env.region }}
     echo "AWS_ACCOUNT=$AWS_ACCOUNT"
@@ -72,4 +75,7 @@ cronJob:
                   image: "{{ .Values.image.repository }}"
                   tag: "{{ .Values.image.tag }}"
                   command:
-                    - job.sh
+
+
+
+
