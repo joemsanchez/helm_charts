@@ -16,7 +16,5 @@ metadata:
     version: {{ $version | default "0" | quote }}
 data:
 {{- if .Values.script }}
-  job.sh: |
-    #!/bin/sh
     {{ .Values.script | quote }}
 {{- end }}
