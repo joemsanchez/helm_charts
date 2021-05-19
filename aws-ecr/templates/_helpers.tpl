@@ -70,3 +70,11 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Test passing variables into configmap.
+*/}}
+{{- define "aws-command" }}
+#!/bin/bash
+echo "Hello world!"
+{{- end }}

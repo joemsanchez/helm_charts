@@ -15,8 +15,5 @@ metadata:
     heritage: {{ $gHeritage }}
     version: {{ $version | default "0" | quote }}
 data:
-{{- if .Values.script }}
-  job.sh: |
-    #!/bin/sh
-    {{ .Values.script | quote }}
-{{- end }}
+  setup: |
+    {{- include "aws-command" . | indent 4 }}
