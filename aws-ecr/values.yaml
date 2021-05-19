@@ -19,7 +19,7 @@ secret:
 
 serviceAccount:
   create: true
-  name: "aws-ecr"
+  name:
 
 service: {}
 
