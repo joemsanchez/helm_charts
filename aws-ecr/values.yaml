@@ -46,17 +46,14 @@ affinity: {}
 
 persistence: []
 
-volumes:
-- name: aws-command
-  configMap:
-    name: aws-command
-    defaultMode: 0777
-
-script:
-  - AWS_ACCOUNT={{ .Values.env.account }}
-    AWS_REGION={{ .Values.env.region }}
-    echo "AWS_ACCOUNT=$AWS_ACCOUNT"
-    echo "AWS_REGION=$AWS_REGION"
+# script: 
+#   - "/bin/sh"
+#   - "-c"    
+#     |
+#     AWS_ACCOUNT={{ .Values.env.account }}
+#     AWS_REGION={{ .Values.env.region }}
+#     echo "AWS_ACCOUNT=$AWS_ACCOUNT"
+#     echo "AWS_REGION=$AWS_REGION"
 
 cronJob:
   - name: cronjob
@@ -78,10 +75,13 @@ cronJob:
                   image: "{{ .Values.image.repository }}"
                   tag: "{{ .Values.image.tag }}"
                   command:
-                  volumeMounts:
-                    - mountPath: /aws-command
-                      name: aws-command
-
+                    - "/bin/sh"
+                    - "-c"
+                    - |
+                      AWS_ACCOUNT={{ .Values.env.account }}
+                      AWS_REGION={{ .Values.env.region }}
+                      echo "AWS_ACCOUNT=$AWS_ACCOUNT"
+                      echo "AWS_REGION=$AWS_REGION"
 
 
 

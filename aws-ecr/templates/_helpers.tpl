@@ -71,10 +71,3 @@ Create the name of the service account to use
 {{- end -}}
 {{- end -}}
 
-{{/*
-Test passing variables into configmap.
-*/}}
-{{- define "aws-command" }}
-#!/bin/bash
-echo "Hello world!"
-{{- end }}

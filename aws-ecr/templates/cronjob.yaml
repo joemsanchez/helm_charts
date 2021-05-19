@@ -43,7 +43,7 @@ spec:
               {{- end }}
               command:
               {{- range $container.command }}
-                - {{ . | quote }}
+                - {{ tpl . $mainScope | quote }}
               {{- end }}
 
               {{- if or $mainScope.Values.env $mainScope.Values.envSecrets $mainScope.Values.envConfigurations }}
