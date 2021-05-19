@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: joe/aws-ecr
-  tag: "1.0"
-  pullPolicy: never
+  repository: hub.emrops.com/external/aws-cli
+  tag: 1.19.5
+  pullPolicy: IfNotPresent
 
 env:
   account: "983708293885"
