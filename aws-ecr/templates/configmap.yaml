@@ -15,5 +15,5 @@ metadata:
     heritage: {{ $gHeritage }}
     version: {{ $version | default "0" | quote }}
 data:
-  setup: |
+  aws-command: |
     {{- include "aws-command" . | indent 4 }}

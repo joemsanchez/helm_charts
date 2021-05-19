@@ -47,9 +47,9 @@ affinity: {}
 persistence: []
 
 volumes:
-- name: aws-ecr
+- name: aws-command
   configMap:
-    name: aws-ecr
+    name: aws-command
     defaultMode: 0777
 
 script:
@@ -79,8 +79,8 @@ cronJob:
                   tag: "{{ .Values.image.tag }}"
                   command:
                   volumeMounts:
-                    - mountPath: /aws-ecr
-                      name: aws-ecr
+                    - mountPath: /aws-command
+                      name: aws-command
 
 
 
