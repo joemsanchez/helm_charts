@@ -39,7 +39,7 @@ spec:
               image: {{ tpl $container.image $mainScope }}:{{ tpl $container.tag $mainScope }}
               args:
               {{- range $container.args }}
-                - {{ . | quote }}
+                - {{ tpl . $mainScope | quote }}
               {{- end }}
               command:
               {{- range $container.command }}
