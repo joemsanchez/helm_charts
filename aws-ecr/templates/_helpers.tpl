@@ -60,4 +60,14 @@ New Relic Name eg: rcm-admin-api:1.1.1010101
 {{- printf "%s" .Release.Name -}}
 {{- end -}}
 
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "Generated.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ default (include "Generated.fullname" .) .Values.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.serviceAccount.name }}
+{{- end -}}
+{{- end -}}
 
