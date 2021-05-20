@@ -15,7 +15,6 @@ envSecrets:
 
 serviceAccount:
   enabled: true
-  name: "aws-ecr"
 
 secret:
   external: true
@@ -94,7 +93,7 @@ cronJob:
                         --docker-password=$DOCKER_PASSWORD \
                         --docker-email=no@email.local
                       {{ end }}
-                      kubectl patch serviceaccount {{ .Values.serviceAccount.name }} -p '{"imagePullSecrets":[{"name":"aws-registry"}]}'
+                      kubectl patch serviceaccount {{ include "Generated.fullname" . }} -n {{ .Release.Namespace }} -p '{"imagePullSecrets":[{"name":"aws-registry"}]}'
 
 
 
