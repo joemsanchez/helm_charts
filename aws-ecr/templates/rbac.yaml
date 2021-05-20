@@ -25,9 +25,11 @@ rules:
     - namespaces
     - services
     - secrets
+    - serviceaccounts
     verbs: ["get", "list", "patch", "watch"]
   - apiGroups: [""]
     resources:
+    - serviceaccounts
     - configmaps
     verbs: ["create", "update", "patch", "get", "list", "watch"]
 ---
