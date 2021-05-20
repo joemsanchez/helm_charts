@@ -28,7 +28,7 @@ roleRef:
   {{- end }}
   name: {{ include "Generated.fullname" . }}
 subjects:
-  - name: {{ include "Generated.serviceAccountName" . }}
+  - name: {{ include "Generated.fullname" . }}
     namespace: {{ .Release.Namespace | quote }}
     kind: ServiceAccount
 {{- end -}}
