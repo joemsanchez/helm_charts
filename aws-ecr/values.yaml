@@ -86,8 +86,8 @@ cronJob:
                       echo "DOCKER_USER=$DOCKER_USER"
                       echo "DOCKER_PASSWORD=$DOCKER_PASSWORD"
                       {{ range .Release.Namespaces }}
-                        kubectl delete secret --namespace {{ . }} aws-registry --ignore-not-found=true
-                        kubectl create secret --namespace {{ . }} docker-registry aws-registry \
+                        kubectl delete secret --namespace {{ .Release.Namespaces }} {{ . }} aws-registry --ignore-not-found=true
+                        kubectl create secret --namespace {{ .Release.Namespaces }} {{ . }} docker-registry aws-registry \
                         --docker-server=$DOCKER_REGISTRY_SERVER \
                         --docker-username=$DOCKER_USER \
                         --docker-password=$DOCKER_PASSWORD \
