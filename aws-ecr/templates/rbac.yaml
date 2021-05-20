@@ -1,4 +1,10 @@
 {{- if .Values.rbac.create -}}
+{{- $gName := include "Generated.fullname" .}}
+{{- $gChart := include "Generated.chart" . }}
+{{- $gReleaseName := .Release.Name }}
+{{- $gHeritage := .Release.Service }}
+{{- $version := .Values.image.tag }}
+---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 {{- if .Values.rbac.namespaced }}
 kind: Role
@@ -6,19 +12,20 @@ kind: Role
 kind: ClusterRole
 {{- end }}
 metadata:
-  name: {{ include "Generated.fullname" . }}
+  name: {{ $gName }}
   labels:
-    app.kubernetes.io/name: {{ include "Generated.name" . }}
-    helm.sh/chart: {{ include "Generated.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app: {{ $gName }}
+    chart: {{ $gChart }}
+    release: {{ $gReleaseName }}
+    heritage: {{ $gHeritage }}
+    version: {{ $version | default "0" | quote }}
 rules:
   - apiGroups: [""]
     resources:
     - namespaces
     - services
     - secrets
-    verbs: ["get", "list", "watch"]
+    verbs: ["get", "list", "patch", "watch"]
   - apiGroups: [""]
     resources:
     - configmaps
@@ -31,12 +38,13 @@ kind: RoleBinding
 kind: ClusterRoleBinding
 {{- end }}
 metadata:
-  name: {{ include "Generated.fullname" . }}
+  name: {{ $gName }}
   labels:
-    app.kubernetes.io/name: {{ include "Generated.name" . }}
-    helm.sh/chart: {{ include "Generated.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app: {{ $gName }}
+    chart: {{ $gChart }}
+    release: {{ $gReleaseName }}
+    heritage: {{ $gHeritage }}
+    version: {{ $version | default "0" | quote }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   {{- if .Values.rbac.namespaced }}
@@ -50,3 +58,4 @@ subjects:
     namespace: {{ .Release.Namespace | quote }}
     kind: ServiceAccount
 {{- end -}}
+
