@@ -21,6 +21,11 @@ serviceAccount:
   create: true
   name: "aws-ecr"
 
+rbac:
+  # Specifies whether RBAC resources should be created
+  create: true
+  namespaced: false
+
 service: {}
 
 alias: false

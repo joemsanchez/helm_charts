@@ -1,0 +1,52 @@
+{{- if .Values.rbac.create -}}
+apiVersion: rbac.authorization.k8s.io/v1beta1
+{{- if .Values.rbac.namespaced }}
+kind: Role
+{{- else }}
+kind: ClusterRole
+{{- end }}
+metadata:
+  name: {{ include "Generated.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "Generated.name" . }}
+    helm.sh/chart: {{ include "Generated.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+rules:
+  - apiGroups: [""]
+    resources:
+    - namespaces
+    - services
+    - secrets
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources:
+    - configmaps
+    verbs: ["create", "update", "patch", "get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+{{- if .Values.rbac.namespaced }}
+kind: RoleBinding
+{{- else }}
+kind: ClusterRoleBinding
+{{- end }}
+metadata:
+  name: {{ include "Generated.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "Generated.name" . }}
+    helm.sh/chart: {{ include "Generated.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  {{- if .Values.rbac.namespaced }}
+  kind: Role
+  {{- else }}
+  kind: ClusterRole
+  {{- end }}
+  name: {{ include "Generated.fullname" . }}
+subjects:
+  - name: {{ include "Generated.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace | quote }}
+    kind: ServiceAccount
+{{- end -}}
