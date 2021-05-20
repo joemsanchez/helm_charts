@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: 983708293885.dkr.ecr.us-east-1.amazonaws.com/sample-app:sandbox
+  repository: 983708293885.dkr.ecr.us-east-1.amazonaws.com/sample-app
   tag: sandbox
   pullPolicy: IfNotPresent
 
