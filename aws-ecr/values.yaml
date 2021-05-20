@@ -20,10 +20,10 @@ secret:
   external: true
   prefix: /hq/k8s/devops-dev
 
-# rbac:
-#   # Specifies whether RBAC resources should be created
-#   create: true
-#   namespaced: true
+rbac:
+  # Specifies whether RBAC resources should be created
+  create: true
+  namespaced: true
 
 service: {}
 
