@@ -14,7 +14,7 @@ envSecrets:
   aws_secret_access_key: "aws-ecr-credentials"
 
 serviceAccount:
-  create: true
+  enabled: true
   name: "aws-ecr"
 
 secret:
