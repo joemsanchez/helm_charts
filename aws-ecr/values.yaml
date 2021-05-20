@@ -85,13 +85,13 @@ cronJob:
                       echo "DOCKER_REGISTRY_SERVER=$DOCKER_REGISTRY_SERVER"
                       echo "DOCKER_USER=$DOCKER_USER"
                       echo "DOCKER_PASSWORD=$DOCKER_PASSWORD"
-                        kubectl delete secret --namespace {{ .Release.Namespace }} aws-registry --ignore-not-found=true
-                        kubectl create secret --namespace {{ .Release.Namespace }} aws-registry \
+                        kubectl delete secret --namespace {{ .Release.Namespace }} aws-ecr-credentials --ignore-not-found=true
+                        kubectl create secret --namespace {{ .Release.Namespace }} aws-ecr-credentials \
                         --docker-server=$DOCKER_REGISTRY_SERVER \
                         --docker-username=$DOCKER_USER \
                         --docker-password=$DOCKER_PASSWORD \
                         --docker-email=no@email.local
-                      kubectl patch serviceaccount {{ include "Generated.fullname" . }} -n {{ .Release.Namespace }} -p '{"imagePullSecrets":[{"name":"aws-registry"}]}'
+                      kubectl patch serviceaccount {{ include "Generated.fullname" . }} -n {{ .Release.Namespace }} -p '{"imagePullSecrets":[{"name":"aws-ecr-credentials"}]}'
 
 
 
