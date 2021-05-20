@@ -24,7 +24,7 @@ secret:
 rbac:
   # Specifies whether RBAC resources should be created
   create: true
-  namespaced: false
+  namespaced: true
 
 service: {}
 
