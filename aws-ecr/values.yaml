@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: woodjme/aws-kubectl
-  tag: latest
-  pullPolicy: never
+  repository: joemsanc/aws-ecr
+  tag: 1.0
+  pullPolicy: IfNotPresent
 
 env:
   account: "983708293885"
