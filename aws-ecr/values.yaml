@@ -85,27 +85,13 @@ cronJob:
                       echo "DOCKER_REGISTRY_SERVER=$DOCKER_REGISTRY_SERVER"
                       echo "DOCKER_USER=$DOCKER_USER"
                       echo "DOCKER_PASSWORD=$DOCKER_PASSWORD"
-                      kubectl delete secret --namespace {{ .Release.Namespace }} aws-ecr-credentials --ignore-not-found=true
-                      kubectl create secret --namespace {{ .Release.Namespace }} aws-ecr-credentials \
-                      --docker-server=$DOCKER_REGISTRY_SERVER \
-                      --docker-username=$DOCKER_USER \
-                      --docker-password=$DOCKER_PASSWORD \
-                      --docker-email=no@email.local
+                      {{ range .Release.Namespaces }}
+                        kubectl delete secret --namespace {{ . }} aws-registry --ignore-not-found=true
+                        kubectl create secret --namespace {{ . }} docker-registry aws-registry \
+                        --docker-server=$DOCKER_REGISTRY_SERVER \
+                        --docker-username=$DOCKER_USER \
+                        --docker-password=$DOCKER_PASSWORD \
+                        --docker-email=no@email.local
+                      {{ end }}
                       kubectl patch serviceaccount {{ include "Generated.fullname" . }} -n {{ .Release.Namespace }} -p '{"imagePullSecrets":[{"name":"aws-ecr-credentials"}]}'
 
-
-
-          # AWS_ACCOUNT=YOUR_ACCOUNT_NUMBER_HERE
-          # export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-          # export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-          # export AWS_REGION=us-east-1
-          # DOCKER_REGISTRY_SERVER=https://${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com
-          # DOCKER_USER=AWS
-          # DOCKER_PASSWORD=`aws ecr get-login --region ${AWS_REGION} --registry-ids ${AWS_ACCOUNT} | cut -d' ' -f6`
-          # kubectl delete secret aws-registry || true
-          # kubectl create secret docker-registry aws-registry \
-          # --docker-server=$DOCKER_REGISTRY_SERVER \
-          # --docker-username=$DOCKER_USER \
-          # --docker-password=$DOCKER_PASSWORD \
-          # --docker-email=no@email.local
-          # kubectl patch serviceaccount default -p '{"imagePullSecrets":[{"name":"aws-registry"}]}'
