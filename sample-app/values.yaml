@@ -6,7 +6,8 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
-imagePullSecrets: [{"name": "aws-registry"}]
+imagePullSecrets: 
+  - aws-registry
 
 service:
   type: ClusterIP
