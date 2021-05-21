@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: 983708293885.dkr.ecr.us-east-1.amazonaws.com/nginx
+  repository: 983708293885.dkr.ecr.us-east-1.amazonaws.com/sample-app
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
