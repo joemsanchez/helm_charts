@@ -6,11 +6,7 @@
 {{- $version := .Values.image.tag }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
-{{- if .Values.rbac.namespaced }}
 kind: RoleBinding
-{{- else }}
-kind: ClusterRoleBinding
-{{- end }}
 metadata:
   name: {{ $gName }}
   labels:
@@ -21,11 +17,7 @@ metadata:
     version: {{ $version | default "0" | quote }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  {{- if .Values.rbac.namespaced }}
   kind: Role
-  {{- else }}
-  kind: ClusterRole
-  {{- end }}
   name: {{ include "Generated.fullname" . }}
 subjects:
   - name: {{ include "Generated.fullname" . }}
