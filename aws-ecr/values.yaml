@@ -74,7 +74,7 @@ cronJob:
                     - "-c"
                     - |
                       kubectlVer=1.16.15
-                      RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v${kubectlVer}/bin/linux/amd64/kubectl \
+                      curl -LO https://storage.googleapis.com/kubernetes-release/release/v${kubectlVer}/bin/linux/amd64/kubectl \
                         && mv kubectl /usr/local/bin \
                         && chmod +x /usr/local/bin/kubectl
                       AWS_ACCOUNT={{ .Values.env.account }}
