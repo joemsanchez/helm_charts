@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: joemsanc/aws-ecr
-  tag: "1.0"
+  repository: amazon/aws-cli
+  tag: "2.2.5"
   pullPolicy: IfNotPresent
 
 env:
@@ -73,6 +73,9 @@ cronJob:
                     - "/bin/sh"
                     - "-c"
                     - |
+                      RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v${kubectlVer}/bin/linux/amd64/kubectl \
+                        && mv kubectl /usr/local/bin \
+                        && chmod +x /usr/local/bin/kubectl
                       AWS_ACCOUNT={{ .Values.env.account }}
                       AWS_REGION={{ .Values.env.region }}
                       echo "AWS_ACCOUNT=$AWS_ACCOUNT"
