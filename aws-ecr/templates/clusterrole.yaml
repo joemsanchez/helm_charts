@@ -6,7 +6,7 @@
 {{- $version := .Values.image.tag }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: Role
+kind: ClusterRole
 metadata:
   name: {{ $gName }}
   labels:
