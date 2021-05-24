@@ -17,12 +17,10 @@ metadata:
     version: {{ $version | default "0" | quote }}
 rules:
 - apiGroups: [""]
-  resources: ["secrets"]
+  resources: ["secrets", "namespace"]
   verbs: ["get", "create", "delete"]
 - apiGroups: [""]
   resources: ["serviceaccounts"]
   verbs: ["get", "patch"]
 {{- end -}}
-
-
 
