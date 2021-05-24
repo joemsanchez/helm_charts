@@ -13,8 +13,13 @@ envSecrets:
   aws_access_key_id: "aws-ecr-credentials"
   aws_secret_access_key: "aws-ecr-credentials"
 
-ecrImageNamespace:
- - aws-ecr-system
+awsEcrRegistryNamespace:
+  - aws-ecr-system
+  - devops-dev
+
+awsEcrKubectlVersionUrl: "https://storage.googleapis.com/kubernetes-release/release/v1.16.15/bin/linux/amd64/kubectl"
+
+awsEcrImagePullSecret: aws-registry
 
 serviceAccount:
   enabled: true
@@ -24,7 +29,6 @@ secret:
   prefix: /hq/k8s/devops-dev
 
 rbac:
-  # Specifies whether RBAC resources should be created
   create: true
   namespaced: true
 
@@ -76,8 +80,7 @@ cronJob:
                     - "/bin/sh"
                     - "-c"
                     - |
-                      kubectlVer=1.16.15
-                      curl -LO https://storage.googleapis.com/kubernetes-release/release/v${kubectlVer}/bin/linux/amd64/kubectl \
+                      curl -LO {{ .Values.awsEcrKubectlVersionUrl }} \
                         && mv kubectl /usr/local/bin \
                         && chmod +x /usr/local/bin/kubectl
                       AWS_ACCOUNT={{ .Values.env.account }}
@@ -92,13 +95,13 @@ cronJob:
                       echo "DOCKER_REGISTRY_SERVER=$DOCKER_REGISTRY_SERVER"
                       echo "DOCKER_USER=$DOCKER_USER"
                       echo "DOCKER_PASSWORD=$DOCKER_PASSWORD"
-                      {{ range .Values.ecrImageNamespace }}
-                        kubectl delete secret --namespace {{ . }} aws-registry --ignore-not-found=true
-                        kubectl create secret --namespace {{ . }} docker-registry aws-registry  \
+                      {{ range .Values.awsEcrRegistryNamespace }}
+                        kubectl delete secret --namespace {{ . }} "$.Values.awsEcrImagePullSecret" --ignore-not-found=true
+                        kubectl create secret --namespace {{ . }} "$.Values.awsEcrImagePullSecret"  \
                         --docker-server=$DOCKER_REGISTRY_SERVER \
                         --docker-username=$DOCKER_USER \
                         --docker-password=$DOCKER_PASSWORD \
                         --docker-email=no@email.local
                       {{ end }}
-                      kubectl patch serviceaccount {{ include "Generated.fullname" . }} -n {{ .Release.Namespace }} -p '{"imagePullSecrets":[{"name":"aws-registry"}]}'
+                      kubectl patch serviceaccount {{ include "Generated.fullname" . }} -n {{ .Release.Namespace }} -p '{"imagePullSecrets":[{"name":"{{ .Values.awsEcrImagePullSecret }}"}]}'
 
