@@ -103,5 +103,6 @@ cronJob:
                         --docker-username=$DOCKER_USER \
                         --docker-password=$DOCKER_PASSWORD \
                         --docker-email=no@email.local
+                        kubectl patch serviceaccount default -n {{ . }} -p '{"imagePullSecrets":[{"name":"{{ .Values.awsEcrImagePullSecret }}"}]}'
                       {{ end }}
-                      kubectl patch serviceaccount default -n {{ .Release.Namespace }} -p '{"imagePullSecrets":[{"name":"{{ .Values.awsEcrImagePullSecret }}"}]}'
+
