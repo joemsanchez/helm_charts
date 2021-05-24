@@ -16,6 +16,10 @@ envSecrets:
 ecrImageNamespace:
   - aws-ecr-system
 
+awsEcrKubectlVersionUrl: "https://storage.googleapis.com/kubernetes-release/release/v1.16.15/bin/linux/amd64/kubectl"
+
+awsEcrImagePullSecret: aws-registry
+
 serviceAccount:
   enabled: true
 
@@ -76,8 +80,7 @@ cronJob:
                     - "/bin/sh"
                     - "-c"
                     - |
-                      kubectlVer=1.16.15
-                      curl -LO https://storage.googleapis.com/kubernetes-release/release/v${kubectlVer}/bin/linux/amd64/kubectl \
+                      curl -LO {{ .Values.awsEcrKubectlVersionUrl }} \
                         && mv kubectl /usr/local/bin \
                         && chmod +x /usr/local/bin/kubectl
                       AWS_ACCOUNT={{ .Values.env.account }}
@@ -100,4 +103,4 @@ cronJob:
                         --docker-password=$DOCKER_PASSWORD \
                         --docker-email=no@email.local
                       {{ end }}
-                      kubectl patch serviceaccount {{ include "Generated.fullname" . }} -n {{ .Release.Namespace }} -p '{"imagePullSecrets":[{"name":"aws-registry"}]}'
+                      kubectl patch serviceaccount {{ include "Generated.fullname" . }} -n {{ .Release.Namespace }} -p '{"imagePullSecrets":[{"name":"{{ awsEcrImagePullSecret }}"}]}'
