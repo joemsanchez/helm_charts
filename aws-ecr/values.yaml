@@ -15,7 +15,6 @@ envSecrets:
 
 awsEcrRegistryNamespace:
   - aws-ecr-system
-  - devops-dev
 
 awsEcrKubectlVersionUrl: "https://storage.googleapis.com/kubernetes-release/release/v1.16.15/bin/linux/amd64/kubectl"
 
@@ -96,8 +95,8 @@ cronJob:
                       echo "DOCKER_USER=$DOCKER_USER"
                       echo "DOCKER_PASSWORD=$DOCKER_PASSWORD"
                       {{ range .Values.awsEcrRegistryNamespace }}
-                        kubectl delete secret --namespace {{ . }} "$.Values.awsEcrImagePullSecret" --ignore-not-found=true
-                        kubectl create secret --namespace {{ . }} "$.Values.awsEcrImagePullSecret"  \
+                        kubectl delete secret --namespace {{ . }} aws-registry --ignore-not-found=true
+                        kubectl create secret --namespace {{ . }} aws-registry \
                         --docker-server=$DOCKER_REGISTRY_SERVER \
                         --docker-username=$DOCKER_USER \
                         --docker-password=$DOCKER_PASSWORD \
