@@ -86,7 +86,7 @@ cronJob:
                         && chmod +x /usr/local/bin/kubectl
                       AWS_ACCOUNT={{ .Values.env.account }}
                       AWS_REGION={{ .Values.env.region }}
-                      PULL_SECRET={{ .Values.awsEcrImagePullSecret }}
+                      PULL_SECRET='{"imagePullSecrets":[{"name":"aws-registry"}]}'
                       echo "AWS_ACCOUNT=$AWS_ACCOUNT"
                       echo "AWS_REGION=$AWS_REGION"
                       aws configure set aws_access_key_id $(aws_access_key_id)
@@ -104,6 +104,12 @@ cronJob:
                         --docker-username=$DOCKER_USER \
                         --docker-password=$DOCKER_PASSWORD \
                         --docker-email=no@email.local
-                        kubectl patch serviceaccount default -n {{ . }} -p '{"imagePullSecrets":[{"name":PULL_SECRET}]}'
+                        kubectl patch serviceaccount default -n devops-dev -p "$PULL_SECRET"
                       {{ end }}
+
+
+# export PULL_SECRET='{"imagePullSecrets":[{"name":"aws-registry"}]}'
+# echo $PULL_SECRET
+# kubectl patch serviceaccount default -n devops-dev -p "$PULL_SECRET"
+
 
