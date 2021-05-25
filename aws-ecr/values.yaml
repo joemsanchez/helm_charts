@@ -86,7 +86,7 @@ cronJob:
                         && chmod +x /usr/local/bin/kubectl
                       AWS_ACCOUNT={{ .Values.env.account }}
                       AWS_REGION={{ .Values.env.region }}
-                      PULL_SECRET='{"imagePullSecrets":[{"name":"aws-registry"}]}'
+                      PULL_SECRET='{"imagePullSecrets":[{"name":"{{ .Values.awsEcrImagePullSecret }}"}]}'
                       echo "AWS_ACCOUNT=$AWS_ACCOUNT"
                       echo "AWS_REGION=$AWS_REGION"
                       aws configure set aws_access_key_id $(aws_access_key_id)
@@ -98,8 +98,8 @@ cronJob:
                       echo "DOCKER_USER=$DOCKER_USER"
                       echo "DOCKER_PASSWORD=$DOCKER_PASSWORD"
                       {{ range .Values.awsEcrRegistryNamespace }}
-                        kubectl delete secret --namespace {{ . }} aws-registry --ignore-not-found=true
-                        kubectl create secret --namespace {{ . }} docker-registry aws-registry \
+                        kubectl delete secret --namespace {{ . }} $PULL_SECRET --ignore-not-found=true
+                        kubectl create secret --namespace {{ . }} docker-registry $PULL_SECRET \
                         --docker-server=$DOCKER_REGISTRY_SERVER \
                         --docker-username=$DOCKER_USER \
                         --docker-password=$DOCKER_PASSWORD \
