@@ -1,0 +1,36 @@
+replicaCount: 1
+
+image:
+  repository: httpd
+  tag: "latest"
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+  annotations: {}
+  labels: {}
+
+healthProbes: false
+
+ingress:
+  enabled: false
+
+resources:
+ limits:
+   cpu: 300m
+   memory: 512Mi
+ requests:
+   cpu: 300m
+   memory: 512Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Enable autoscaling
+autoscaling:
+  enabled: false
+
