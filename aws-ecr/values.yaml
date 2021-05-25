@@ -104,12 +104,8 @@ cronJob:
                         --docker-username=$DOCKER_USER \
                         --docker-password=$DOCKER_PASSWORD \
                         --docker-email=no@email.local
-                        kubectl patch serviceaccount default -n devops-dev -p "$PULL_SECRET"
+                        kubectl patch serviceaccount default -n {{ . }} -p "$PULL_SECRET"
                       {{ end }}
 
-
-# export PULL_SECRET='{"imagePullSecrets":[{"name":"aws-registry"}]}'
-# echo $PULL_SECRET
-# kubectl patch serviceaccount default -n devops-dev -p "$PULL_SECRET"
 
 
