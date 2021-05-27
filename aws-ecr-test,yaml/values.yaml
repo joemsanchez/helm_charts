@@ -1,10 +1,10 @@
 replicaCount: 1
 
 image:
-  repository: 983708293885.dkr.ecr.us-east-1.amazonaws.com/sample-app
+  repository: 363147303567.dkr.ecr.us-east-1.amazonaws.com/automation-test-api
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "1.2.20210524155538"
 
 service:
   type: ClusterIP
