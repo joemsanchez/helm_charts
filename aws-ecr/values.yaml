@@ -84,8 +84,7 @@ cronJob:
                     - "/bin/sh"
                     - "-c"
                     - |
-                      KUBECTL_URL="{{ .Values.kubectl_ver.url }}{{ .Values.kubectl_ver.version }}{{ .Values.kubectl_ver.path }}" \
-                      curl -LO $KUBECTL_URL \
+                      curl -LO "{{ .Values.kubectl_ver.url }}{{ .Values.kubectl_ver.version }}{{ .Values.kubectl_ver.path }}" \
                         && mv kubectl /usr/local/bin \
                         && chmod +x /usr/local/bin/kubectl
                       AWS_ACCOUNT={{ .Values.env.account }}
