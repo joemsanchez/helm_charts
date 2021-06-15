@@ -19,7 +19,7 @@ registry:
     - devops-dev
   secretName: aws-registry
 
-kubectl_ver:
+kubectl:
   version: "v1.16.15"
   url: "https://storage.googleapis.com/kubernetes-release/release/"
   path: "/bin/linux/amd64/kubectl"
@@ -84,7 +84,7 @@ cronJob:
                     - "/bin/sh"
                     - "-c"
                     - |
-                      curl -LO "{{ .Values.kubectl_ver.url }}{{ .Values.kubectl_ver.version }}{{ .Values.kubectl_ver.path }}" \
+                      curl -LO "{{ .Values.kubectl.url }}{{ .Values.kubectl.version }}{{ .Values.kubectl.path }}" \
                         && mv kubectl /usr/local/bin \
                         && chmod +x /usr/local/bin/kubectl
                       AWS_ACCOUNT={{ .Values.env.account }}
