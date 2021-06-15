@@ -13,11 +13,17 @@ envSecrets:
   aws_access_key_id: "aws-ecr-credentials"
   aws_secret_access_key: "aws-ecr-credentials"
 
-registry:
-  namespaces:
-    - aws-ecr-system
-    - devops-dev
-  secretName: aws-registry
+# registry:
+#   namespaces:
+#     - aws-ecr-system
+#     - devops-dev
+#   secretName: aws-registry
+
+awsEcrRegistryNamespace:
+  - aws-ecr-system
+  - devops-dev
+
+awsEcrImagePullSecret: aws-registry
 
 kubectl:
   version: "v1.16.15"
@@ -90,7 +96,7 @@ cronJob:
                         && chmod +x /usr/local/bin/kubectl
                       AWS_ACCOUNT={{ .Values.env.account }}
                       AWS_REGION={{ .Values.env.region }}
-                      PULL_SECRET='{"imagePullSecrets":[{"name":"{{ .Values.registry.secretName }}"}]}'
+                      PULL_SECRET='{"imagePullSecrets":[{"name":"{{ .Values.awsEcrImagePullSecret }}"}]}'
                       echo "AWS_ACCOUNT=$AWS_ACCOUNT"
                       echo "AWS_REGION=$AWS_REGION"
                       aws configure set aws_access_key_id $(aws_access_key_id)
@@ -101,7 +107,7 @@ cronJob:
                       echo "DOCKER_REGISTRY_SERVER=$DOCKER_REGISTRY_SERVER"
                       echo "DOCKER_USER=$DOCKER_USER"
                       echo "DOCKER_PASSWORD=$DOCKER_PASSWORD"
-                      {{ range .Values.registry.namespaces }}
+                      {{ range .Values.awsEcrRegistryNamespace }}
                         kubectl delete secret --namespace {{ . }} aws-registry --ignore-not-found=true
                         kubectl create secret --namespace {{ . }} docker-registry aws-registry \
                         --docker-server=$DOCKER_REGISTRY_SERVER \
