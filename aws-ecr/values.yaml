@@ -84,7 +84,7 @@ cronJob:
                     - "/bin/sh"
                     - "-c"
                     - |
-                      KUBECTL_URL={{ .Values.kubectl_ver.url }}{{ .Values.kubectl_ver.version }}{{ .Values.kubectl_ver.path }} \
+                      KUBECTL_URL="{{ .Values.kubectl_ver.url }}{{ .Values.kubectl_ver.version }}{{ .Values.kubectl_ver.path }}" \
                       curl -LO $KUBECTL_URL \
                         && mv kubectl /usr/local/bin \
                         && chmod +x /usr/local/bin/kubectl
