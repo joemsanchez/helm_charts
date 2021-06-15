@@ -13,22 +13,13 @@ envSecrets:
   aws_access_key_id: "aws-ecr-credentials"
   aws_secret_access_key: "aws-ecr-credentials"
 
-# registry:
-#   namespaces:
-#     - aws-ecr-system
-#     - devops-dev
-#   secretName: aws-registry
-
 awsEcrRegistryNamespace:
   - aws-ecr-system
   - devops-dev
 
-awsEcrImagePullSecret: aws-registry
+awsEcrKubectlVersionUrl: "https://storage.googleapis.com/kubernetes-release/release/v1.16.15/bin/linux/amd64/kubectl"
 
-kubectl:
-  version: "v1.16.15"
-  url: "https://storage.googleapis.com/kubernetes-release/release/"
-  path: "/bin/linux/amd64/kubectl"
+awsEcrImagePullSecret: aws-registry
 
 serviceAccount:
   enabled: true
@@ -90,8 +81,7 @@ cronJob:
                     - "/bin/sh"
                     - "-c"
                     - |
-                      KUBECTL_URL={{ .Values.kubectl.url }}{{ .Values.kubectl.version }}{{ .Values.kubectl.path }} \
-                      curl -LO $KUBECTL_URL \
+                      curl -LO {{ .Values.awsEcrKubectlVersionUrl }} \
                         && mv kubectl /usr/local/bin \
                         && chmod +x /usr/local/bin/kubectl
                       AWS_ACCOUNT={{ .Values.env.account }}
@@ -116,6 +106,5 @@ cronJob:
                         --docker-email=no@email.local
                         kubectl patch serviceaccount default -n {{ . }} -p "$PULL_SECRET"
                       {{ end }}
-
 
 
