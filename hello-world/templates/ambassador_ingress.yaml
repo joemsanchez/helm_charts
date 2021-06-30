@@ -11,5 +11,9 @@ spec:
   service: {{ include "Generated.service.fullname" . }}:{{ .Values.service.port }}
   timeout_ms: {{ default "60000" .Values.ingress.ambassador.timeout_ms }}
   connect_timeout_ms: {{ default "60000" .Values.ingress.ambassador.connect_timeout_ms }}
+  {{- with .Values.ingress.ambassador.cors }}  
+  cors:
+{{ toYaml . | indent 4 }}  
+  {{- end }}
 {{- end }}
 {{- end }}

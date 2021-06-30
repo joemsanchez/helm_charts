@@ -3,7 +3,16 @@ entries:
   hello-world:
   - apiVersion: v1
     appVersion: 1.1.0
-    created: "2021-06-30T12:09:18.77223757-05:00"
+    created: "2021-06-30T12:22:32.083552042-05:00"
+    description: A Sample Hello World chart
+    digest: 90bc4cc6ff4363f3c3fef1eeaaee48f5157082ce24ef57897f619239d49a5552
+    name: hello-world
+    urls:
+    - hello-world-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v1
+    appVersion: 1.1.0
+    created: "2021-06-30T12:22:32.08303422-05:00"
     description: A Sample Hello World chart
     digest: 4994c621cf0978d3fb2d1bb63b0996a9d942ad78a9b6656236c0d630cf144d09
     name: hello-world
@@ -12,7 +21,7 @@ entries:
     version: 1.0.2
   - apiVersion: v1
     appVersion: 1.1.0
-    created: "2021-06-30T12:09:18.771782515-05:00"
+    created: "2021-06-30T12:22:32.082673479-05:00"
     description: A Sample Hello World chart
     digest: be52fbeefc3e84a78a3420845bb042e747dade919484e9001d58d4194a4c52d6
     name: hello-world
@@ -21,11 +30,11 @@ entries:
     version: 1.0.1
   - apiVersion: v1
     appVersion: 1.1.0
-    created: "2021-06-30T12:09:18.771459397-05:00"
+    created: "2021-06-30T12:22:32.082331055-05:00"
     description: A Sample Hello World chart
     digest: 410311c542c5e399182e37f72f855ab3ef51f1b51c487d048f981959396d01a1
     name: hello-world
     urls:
     - hello-world-1.0.0.tgz
     version: 1.0.0
-generated: "2021-06-30T12:09:18.770974496-05:00"
+generated: "2021-06-30T12:22:32.081354229-05:00"
