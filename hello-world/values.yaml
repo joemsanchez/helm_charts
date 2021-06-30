@@ -8,8 +8,6 @@ image:
 env:
   name: test
 
-service: {}
-
 alias: false
 disableDeploy: true
 healthProbes: false
