@@ -8,6 +8,12 @@ image:
 env:
   name: test
 
+service:
+  type: ClusterIP
+  port: 80
+  annotations: {}
+  labels: {}
+
 alias: false
 disableDeploy: true
 healthProbes: false
