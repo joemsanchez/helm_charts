@@ -1,0 +1,35 @@
+replicaCount: 1
+
+image:
+  repository: hello-world
+  tag: "linux"
+  pullPolicy: IfNotPresent
+
+env:
+  name: test
+
+service: {}
+
+alias: false
+disableDeploy: true
+healthProbes: false
+
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 300m
+    memory: 512Mi
+  requests:
+    cpu: 300m
+    memory: 512Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+persistence: []
+
