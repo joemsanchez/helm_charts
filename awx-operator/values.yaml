@@ -74,6 +74,8 @@ persistence:
     enabled: true
     spec:
       storageClass: "data-delete-sc"
+      accessModes:
+       - ReadWriteMany
     resources:
       requests:
         storage: 8Gi
