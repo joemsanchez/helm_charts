@@ -72,8 +72,11 @@ volumeMounts:
 persistence:
   - name: awx-vol
     enabled: true
-    storageClass: "data-delete-sc"
-    size: 8Gi
+    spec:
+      storageClass: "data-delete-sc"
+    resources:
+      requests:
+        storage: 8Gi
 
 ##
 ## Init containers parameters:
