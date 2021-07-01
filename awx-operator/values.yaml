@@ -58,25 +58,25 @@ livenessProbe:
   periodSeconds: 20
 
 # volumeMounts:
-#   - name: runner
-#     emptyDir: {}
+#   - mountPath: /tmp/ansible-operator/runner
+#     name: runner
 
 volumes:
   - name: runner
     emptyDir: {}
 
 persistence:
-  - name: awx-vol
-    enabled: true
-    mountPath: /mnt/data
-    spec:
-      storageClass: "data-delete-sc"
-      accessModes:
-       - ReadWriteOnce
-      volumeMode: Filesystem
-      resources:
-        requests:
-          storage: 8Gi
+  # - name: awx-vol
+    - enabled: false
+    # mountPath: /tmp/ansible-operator/runner
+    # spec:
+    #   storageClass: "data-delete-sc"
+    #   accessModes:
+    #    - ReadWriteOnce
+    #   volumeMode: Filesystem
+    #   resources:
+    #     requests:
+    #       storage: 8Gi
 
 ##
 ## Init containers parameters:
