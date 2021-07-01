@@ -38,7 +38,8 @@ ingress:
   hosts:
     - testservices.emrops.com
   tls:
-  - hosts:
+  - secretName: devops-dev/tls-star-emrops
+    hosts:
     - testservices.emrops.com
 
 resources: {}
