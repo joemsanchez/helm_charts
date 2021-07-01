@@ -72,24 +72,15 @@ volumeMounts:
 persistence:
   - name: awx-vol
     enabled: true
+    mountPath: /mnt/data
     spec:
       storageClass: "data-delete-sc"
       accessModes:
        - ReadWriteMany
+      volumeMode: Filesystem
       resources:
         requests:
           storage: 8Gi
-
-#  - name: data
-#    mountPath: /mnt/data
-#    spec:
-#      storageClassName: "fast"
-#      accessModes:
-#        - ReadWriteOnce
-#      volumeMode: Filesystem
-#      resources:
-#        requests:
-#          storage: 8Gi        
 
 ##
 ## Init containers parameters:
