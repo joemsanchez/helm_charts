@@ -58,28 +58,21 @@ service:
   type: ClusterIP
   port: 80
 
-# livenessProbe:
-#   httpGet:
-#     path: /healthz
-#     port: 6789
-#   initialDelaySeconds: 15
-#   periodSeconds: 20
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 6789
+  initialDelaySeconds: 15
+  periodSeconds: 20
 
-# volumeMounts:
-#   - name: runner
-#     emptyDir: {}
+volumeMounts:
+  - name: runner
+    emptyDir: {}
 
-# persistence:
-#  - name: runner
-#    mountPath: /tmp/ansible-operator/runner
-#    spec:
-#      storageClassName: "fast"
-#      accessModes:
-#        - ReadWriteMany
-#      volumeMode: Filesystem
-#      resources:
-#        requests:
-#          storage: 8Gi
+persistence:
+  enabled: true
+  storageClass: "data-delete-sc"
+  size: 8Gi
 
 ##
 ## Init containers parameters:
