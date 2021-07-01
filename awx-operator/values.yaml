@@ -65,13 +65,17 @@ livenessProbe:
   initialDelaySeconds: 15
   periodSeconds: 20
 
+# volumes:
+#   - name: runner
+#     emptyDir: {}
+
 persistence:
   - name: runner
-    emptyDir: {}
+    mountPath: /tmp/ansible-operator/runner
 
-# persistence:
-#  - name: data
-#    mountPath: /mnt/data
+# volumeMounts:
+#   - mountPath: /tmp/ansible-operator/runner
+#     name: runner
 
 ##
 ## Init containers parameters:
