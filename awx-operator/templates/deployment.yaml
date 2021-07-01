@@ -2,22 +2,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "awx-operator.fullname" . }}
+  name: {{ include "Generated.fullname" . }}
   labels:
-    name: {{ template "awx-operator.fullname" . }}
+    name: {{ include "Generated.fullname" . }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      name: {{ template "awx-operator.fullname" . }}
+      name: {{ include "Generated.fullname" . }}
   template:
     metadata:
       labels:
-        name: {{ template "awx-operator.fullname" . }}
+        name: {{ include "Generated.fullname" . }}
     spec:
-      serviceAccountName: {{ template "awx-operator.serviceAccountName" . }}
+      serviceAccountName: {{ include "Generated.fullname" . }}
       containers:
-        - name: {{ template "awx-operator.fullname" . }}
+        - name: {{ include "Generated.fullname" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
