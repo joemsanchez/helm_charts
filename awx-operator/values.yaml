@@ -46,14 +46,6 @@ podAnnotations: {}
 podSecurityContext: {}
   # fsGroup: 2000
 
-# securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
 service:
   type: ClusterIP
   port: 80
@@ -80,7 +72,7 @@ persistence:
     spec:
       storageClass: "data-delete-sc"
       accessModes:
-       - ReadWriteMany
+       - ReadWriteOnce
       volumeMode: Filesystem
       resources:
         requests:
