@@ -76,9 +76,20 @@ persistence:
       storageClass: "data-delete-sc"
       accessModes:
        - ReadWriteMany
-    resources:
-      requests:
-        storage: 8Gi
+      resources:
+        requests:
+          storage: 8Gi
+
+#  - name: data
+#    mountPath: /mnt/data
+#    spec:
+#      storageClassName: "fast"
+#      accessModes:
+#        - ReadWriteOnce
+#      volumeMode: Filesystem
+#      resources:
+#        requests:
+#          storage: 8Gi        
 
 ##
 ## Init containers parameters:
