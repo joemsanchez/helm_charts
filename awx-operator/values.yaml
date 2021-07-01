@@ -28,6 +28,7 @@ env:
   WATCH_NAMESPACE: "awx"
   OPERATOR_NAME: "awx-operator"
   ANSIBLE_GATHERING: explicit
+  POD_NAME: "awx-operator"
 
 ingress:
   enabled: false
