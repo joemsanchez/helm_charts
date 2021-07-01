@@ -3,7 +3,7 @@
 auth:
   enabledMethod: password
 #  password: ""
-#  openId: 
+#  openId:
 #    issuerBaseUrl: ""
 #    clientId: ""
 #    baseUrl: ""
@@ -23,6 +23,19 @@ nameOverride: ""
 fullnameOverride: ""
 hostnameOverride: ""
 namespace: "awx"
+
+env:
+  WATCH_NAMESPACE: "awx"
+  OPERATOR_NAME: "awx-operator"
+  ANSIBLE_GATHERING: explicit
+
+ingress:
+  enabled: false
+
+rbac:
+  # Specifies whether RBAC resources should be created
+  create: true
+  namespaced: true
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -48,7 +61,18 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 8080
+  port: 80
+
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 6789
+  initialDelaySeconds: 15
+  periodSeconds: 20
+
+volumes:
+  - name: runner
+    emptyDir: {}
 
 ##
 ## Init containers parameters:
@@ -85,7 +109,3 @@ tolerations: []
 
 affinity: {}
 
-
-serviceAccount:
-  create: true
-  name:

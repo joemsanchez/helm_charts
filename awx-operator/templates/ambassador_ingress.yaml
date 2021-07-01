@@ -1,0 +1,19 @@
+{{- if .Values.ingress.ambassador -}}
+{{- if .Values.ingress.ambassador.enabled -}}
+apiVersion: {{ .Values.ingress.ambassador.apiVersion }}
+kind:  Mapping
+metadata:
+  name:  {{ include "Generated.service.name" . }}-ambassador-mapping
+spec:
+  ambassador_id: {{ default "ambassador-id" .Values.ingress.ambassador.ambassador_id }}
+  prefix: {{ .Values.ingress.ambassador.prefix }}
+  rewrite: {{ .Values.ingress.ambassador.rewrite | quote }}
+  service: {{ include "Generated.service.fullname" . }}:{{ .Values.service.port }}
+  timeout_ms: {{ default "60000" .Values.ingress.ambassador.timeout_ms }}
+  connect_timeout_ms: {{ default "60000" .Values.ingress.ambassador.connect_timeout_ms }}
+  {{- with .Values.ingress.ambassador.cors }}  
+  cors:
+{{ toYaml . | indent 4 }}  
+  {{- end }}
+{{- end }}
+{{- end }}
