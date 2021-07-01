@@ -70,10 +70,10 @@ volumeMounts:
     emptyDir: {}
 
 persistence:
-  enabled: true
-  name: awx-vol
-  storageClass: "data-delete-sc"
-  size: 8Gi
+  - name: awx-vol
+    enabled: true
+    storageClass: "data-delete-sc"
+    size: 8Gi
 
 ##
 ## Init containers parameters:
