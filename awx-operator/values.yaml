@@ -26,21 +26,21 @@ service:
   port: 80
 
 ingress:
-  enabled: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/affinity: "cookie"
-    nginx.ingress.kubernetes.io/session-cookie-name: "awx"
-    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/add-base-url: "true"
-  path: /awx
-  hosts:
-    - testservices.emrops.com
-  tls:
-  - secretName: devops-dev/tls-star-emrops
-    hosts:
-    - testservices.emrops.com
+  enabled: false
+  # annotations:
+  #   kubernetes.io/ingress.class: nginx
+  #   nginx.ingress.kubernetes.io/affinity: "cookie"
+  #   nginx.ingress.kubernetes.io/session-cookie-name: "awx"
+  #   nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+  #   nginx.ingress.kubernetes.io/rewrite-target: /
+  #   nginx.ingress.kubernetes.io/add-base-url: "true"
+  # path: /awx
+  # hosts:
+  #   - testservices.emrops.com
+  # tls:
+  # - secretName: devops-dev/tls-star-emrops
+  #   hosts:
+  #   - testservices.emrops.com
 
 resources: {}
 
