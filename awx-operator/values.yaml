@@ -71,6 +71,7 @@ volumeMounts:
 
 persistence:
   enabled: true
+  name: awx-vol
   storageClass: "data-delete-sc"
   size: 8Gi
 
