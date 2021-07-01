@@ -65,7 +65,11 @@ livenessProbe:
   initialDelaySeconds: 15
   periodSeconds: 20
 
-volumeMounts:
+# volumeMounts:
+#   - name: runner
+#     emptyDir: {}
+
+volumes:
   - name: runner
     emptyDir: {}
 
