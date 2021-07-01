@@ -65,9 +65,13 @@ livenessProbe:
   initialDelaySeconds: 15
   periodSeconds: 20
 
-volumes:
+persistence:
   - name: runner
     emptyDir: {}
+
+# persistence:
+#  - name: data
+#    mountPath: /mnt/data
 
 ##
 ## Init containers parameters:
