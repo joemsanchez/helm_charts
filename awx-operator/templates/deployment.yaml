@@ -70,6 +70,18 @@ spec:
                   name: "main-credentials"
                   key: "NEW_RELIC_LICENSE_KEY"
             {{- end }}
+          env:
+            # Watch all namespaces (cluster-scoped).
+            - name: WATCH_NAMESPACE
+              value: ""
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: awx-operator
+            - name: ANSIBLE_GATHERING
+              value: explicit
             {{- range $key, $value := .Values.env }}
             - name: "{{ $key }}"
               value: "{{ $value }}"
@@ -102,12 +114,12 @@ spec:
             {{- with .Values.volumeMounts }}
 {{ toYaml . | indent 12 }}
             {{- end }}
-            
+
           lifecycle:
             preStop:
               exec:
                 command: ["/bin/sh", "-c", "sleep 6"]
-                
+
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
