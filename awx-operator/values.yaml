@@ -65,13 +65,9 @@ livenessProbe:
   initialDelaySeconds: 15
   periodSeconds: 20
 
-# volumes:
-#   - name: runner
-#     emptyDir: {}
-
-# persistence:
-#   - name: runner
-#     mountPath: /tmp/ansible-operator/runner
+volumes:
+  - name: runner
+    emptyDir: {}
 
 persistence:
  - name: runner
@@ -79,15 +75,11 @@ persistence:
    spec:
      storageClassName: "fast"
      accessModes:
-       - ReadWriteOnce
+       - ReadWriteMany
      volumeMode: Filesystem
      resources:
        requests:
          storage: 8Gi
-
-# volumeMounts:
-#   - mountPath: /tmp/ansible-operator/runner
-#     name: runner
 
 ##
 ## Init containers parameters:
