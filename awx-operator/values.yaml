@@ -67,7 +67,7 @@ volumes:
 
 persistence:
   # - name: awx-vol
-    - enabled: false
+    enabled: false
     # mountPath: /tmp/ansible-operator/runner
     # spec:
     #   storageClass: "data-delete-sc"
