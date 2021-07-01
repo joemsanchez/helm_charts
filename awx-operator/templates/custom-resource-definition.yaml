@@ -14,7 +14,7 @@ spec:
     singular: awx
   scope: Namespaced
   version:
-    - name: v1
+    - name: v1alpha2
       served: true
       storage: true
       subresources:
