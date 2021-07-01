@@ -70,7 +70,7 @@ volumeMounts:
     emptyDir: {}
 
 persistence:
-  - name: awx-vol
+  - name: runner
     enabled: true
     mountPath: /mnt/data
     spec:
