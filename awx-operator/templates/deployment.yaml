@@ -102,22 +102,18 @@ spec:
             {{- end }}
 
           volumeMounts:
-            - mountPath: /tmp/ansible-operator/runner
-              name: runner
-
-#           volumeMounts:
-#             {{- if $.Values.mountSecret }}
-#             - name: pv-secret
-#               mountPath: "/var/secret"
-#               readOnly: true
-#             {{- end }}
-#             {{- range $persist :=.Values.persistence }}
-#             - name: {{ $persist.name }}
-#               mountPath: {{ $persist.mountPath }}
-#             {{- end }}
-#             {{- with .Values.volumeMounts }}
-# {{ toYaml . | indent 12 }}
-#             {{- end }}
+            {{- if $.Values.mountSecret }}
+            - name: pv-secret
+              mountPath: "/var/secret"
+              readOnly: true
+            {{- end }}
+            {{- range $persist :=.Values.persistence }}
+            - name: {{ $persist.name }}
+              mountPath: {{ $persist.mountPath }}
+            {{- end }}
+            {{- with .Values.volumeMounts }}
+{{ toYaml . | indent 12 }}
+            {{- end }}
 
           lifecycle:
             preStop:
