@@ -15,7 +15,7 @@ serviceAccount:
   create: true
   name: awx-operator
 
-installCRDs: true  
+installCRDs: true
 
 podSecurityContext: {}
 
@@ -61,10 +61,10 @@ server:
     enabled: true
   persistentVolume:
     size: 20Gi
-    storageClass: "data-delete-sc"  
+    storageClass: "data-delete-sc"
 
 volumeMounts:
- - name: runner 
+ - name: runner
    mountPath: /tmp/ansible-operator/runner
 
 volumes:
@@ -81,8 +81,4 @@ persistence:
       volumeMode: Filesystem
       resources:
         requests:
-          storage: 8Gi           
-
-
-
-   
+          storage: 8Gi
