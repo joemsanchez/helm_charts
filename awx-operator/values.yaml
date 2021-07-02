@@ -57,21 +57,26 @@ livenessProbe:
   initialDelaySeconds: 15
   periodSeconds: 20
 
+# volumeMounts:
+#   - mountPath: /tmp/ansible-operator/runner
+#     name: runner
+
 volumes:
   - name: runner
     emptyDir: {}
 
-persistence:
-  - name: k8sdata
-    mountPath: /k8sdata
-    spec:
-      storageClass: "data-delete-sc"
-      accessModes:
-       - ReadWriteOnce
-      volumeMode: Filesystem
-      resources:
-        requests:
-          storage: 8Gi
+persistence: {}
+  # - name: awx-vol
+    # enabled: false
+    # mountPath: /tmp/ansible-operator/runner
+    # spec:
+    #   storageClass: "data-delete-sc"
+    #   accessModes:
+    #    - ReadWriteOnce
+    #   volumeMode: Filesystem
+    #   resources:
+    #     requests:
+    #       storage: 8Gi
 
 ##
 ## Init containers parameters:
