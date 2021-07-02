@@ -65,18 +65,18 @@ volumes:
   - name: runner
     emptyDir: {}
 
-persistence: {}
-  # - name: awx-vol
-    # enabled: false
-    # mountPath: /tmp/ansible-operator/runner
-    # spec:
-    #   storageClass: "data-delete-sc"
-    #   accessModes:
-    #    - ReadWriteOnce
-    #   volumeMode: Filesystem
-    #   resources:
-    #     requests:
-    #       storage: 8Gi
+persistence:
+  - name: postgres-awx-demo-postgres-0
+    enabled: false
+    mountPath: /tmp/ansible-operator/runner
+    spec:
+      storageClass: "data-delete-sc"
+      accessModes:
+       - ReadWriteOnce
+      volumeMode: Filesystem
+      resources:
+        requests:
+          storage: 8Gi
 
 ##
 ## Init containers parameters:
