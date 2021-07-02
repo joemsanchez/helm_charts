@@ -28,17 +28,12 @@ ingress:
   enabled: false
 
 rbac:
-  # Specifies whether RBAC resources should be created
   create: true
   namespaced: true
 
 serviceAccount:
-  # Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
   name: ""
 
 podAnnotations: {}
@@ -65,27 +60,18 @@ volumes:
   - name: runner
     emptyDir: {}
 
-persistence:
-  - name: postgres-awx-demo-postgres-0
-    mountPath: /var/lib/projects
-    spec:
-      storageClass: "data-delete-sc"
-      accessModes:
-       - ReadWriteOnce
-      volumeMode: Filesystem
-      resources:
-        requests:
-          storage: 8Gi
-  - name: awx-operator-postgres-awx-demo-postgres-0
-    mountPath: /tmp/ansible-operator/runner
-    spec:
-      storageClass: "data-delete-sc"
-      accessModes:
-       - ReadWriteOnce
-      volumeMode: Filesystem
-      resources:
-        requests:
-          storage: 8Gi
+persistence: {}
+  # - name: awx-vol
+    # enabled: false
+    # mountPath: /tmp/ansible-operator/runner
+    # spec:
+    #   storageClass: "data-delete-sc"
+    #   accessModes:
+    #    - ReadWriteOnce
+    #   volumeMode: Filesystem
+    #   resources:
+    #     requests:
+    #       storage: 8Gi
 
 ##
 ## Init containers parameters:
