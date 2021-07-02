@@ -57,10 +57,10 @@ livenessProbe:
   initialDelaySeconds: 15
   periodSeconds: 20
 
-volumeMounts:
-  - mountPath: /tmp/ansible-operator/runner
-    name: runner
-    
+volumes:
+  - name: runner
+    emptyDir: {}
+
 persistence:
   - name: k8sdata
     mountPath: /k8sdata
