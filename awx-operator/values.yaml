@@ -52,26 +52,33 @@ livenessProbe:
   initialDelaySeconds: 15
   periodSeconds: 20
 
-# volumeMounts:
-#   - mountPath: /tmp/ansible-operator/runner
-#     name: runner
+server:
+  statefulSet:
+    enabled: true
+  persistentVolume:
+    size: 20Gi
+    storageClass: "data-delete-sc"
 
-volumes:
-  - name: runner
-    emptyDir: {}
+# # volumeMounts:
+# #   - mountPath: /tmp/ansible-operator/runner
+# #     name: runner
 
-persistence: {}
-  # - name: awx-vol
-    # enabled: false
-    # mountPath: /tmp/ansible-operator/runner
-    # spec:
-    #   storageClass: "data-delete-sc"
-    #   accessModes:
-    #    - ReadWriteOnce
-    #   volumeMode: Filesystem
-    #   resources:
-    #     requests:
-    #       storage: 8Gi
+# volumes:
+#   - name: runner
+#     emptyDir: {}
+
+# persistence: {}
+#   # - name: awx-vol
+#     # enabled: false
+#     # mountPath: /tmp/ansible-operator/runner
+#     # spec:
+#     #   storageClass: "data-delete-sc"
+#     #   accessModes:
+#     #    - ReadWriteOnce
+#     #   volumeMode: Filesystem
+#     #   resources:
+#     #     requests:
+#     #       storage: 8Gi
 
 ##
 ## Init containers parameters:
