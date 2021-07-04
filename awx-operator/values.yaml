@@ -56,7 +56,7 @@ server:
   statefulSet:
     enabled: true
   persistentVolume:
-    size: 20Gi
+    size: 8Gi
     storageClass: "data-delete-sc"
 
 # # volumeMounts:
