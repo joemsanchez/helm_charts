@@ -1,11 +1,26 @@
 apiVersion: awx.ansible.com/v1beta1
 kind: AWX
 metadata:
-  annotations:
-    "helm.sh/hook": post-install
   name: awx-demo
 spec:
-  tower_ingress_type: Ingress
-  # service_type: nodeport
+  service_type: ClusterIP
   # ingress_type: none
   # hostname: awx-demo.example.com
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/affinity: "cookie"
+      nginx.ingress.kubernetes.io/session-cookie-name: "awx"
+      nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+      nginx.ingress.kubernetes.io/rewrite-target: /
+      nginx.ingress.kubernetes.io/add-base-url: "true"
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    path: /awx
+    hosts:
+    - testservices.emrops.com
+    tls:
+    - secretName: tls-star-emrops
+      hosts:
+      - testservices.emrops.com
