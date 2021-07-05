@@ -3,9 +3,9 @@ kind: AWX
 metadata:
   name: awx-demo
 spec:
-  service_type: nodeport
+  service_type: ClusterIP
   # ingress_type: none
-  hostname: awx-demo.example.com
+  # hostname: awx-demo.example.com
   ingress:
     enabled: true
     annotations:
@@ -19,7 +19,8 @@ spec:
       nginx.ingress.kubernetes.io/cors-allow-origin: "*"
     path: /awx
     hosts:
-      - testservices.emrops.com
+    - testservices.emrops.com
     tls:
-    - hosts:
+    - secretName: nginx-tls-cert
+      hosts:
       - testservices.emrops.com
