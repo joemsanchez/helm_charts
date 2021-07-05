@@ -52,22 +52,22 @@ livenessProbe:
   initialDelaySeconds: 15
   periodSeconds: 20
 
-##
-## Init containers parameters:
-## volumePermissions: Change the owner of the persist volume mountpoint to RunAsUser:fsGroup
-##
-# volumePermissions:
-#   enabled: true
-#   securityContext:
-#     runAsUser: 0
+#
+# Init containers parameters:
+# volumePermissions: Change the owner of the persist volume mountpoint to RunAsUser:fsGroup
+#
+volumePermissions:
+  enabled: true
+  securityContext:
+    runAsUser: 0
 
-## Pod Security Context
-## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
-##
-# securityContext:
-#   enabled: true
-#   fsGroup: 1000
-#   runAsUser: 1000
+# Pod Security Context
+# ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+#
+securityContext:
+  enabled: true
+  fsGroup: 1000
+  runAsUser: 1000
 
 resources: {}
 
