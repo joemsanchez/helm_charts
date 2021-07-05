@@ -52,16 +52,6 @@ livenessProbe:
   initialDelaySeconds: 15
   periodSeconds: 20
 
-# server:
-#   statefulSet:
-#     enabled: true
-#   persistentVolume:
-#     size: 8Gi
-#     storageClass: "data-delete-sc"
-
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
 server:
   statefulSet:
     enabled: true
@@ -79,18 +69,18 @@ server:
 ## Init containers parameters:
 ## volumePermissions: Change the owner of the persist volume mountpoint to RunAsUser:fsGroup
 ##
-volumePermissions:
-  enabled: true
-  securityContext:
-    runAsUser: 0
+# volumePermissions:
+#   enabled: true
+#   securityContext:
+#     runAsUser: 0
 
 ## Pod Security Context
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 ##
-securityContext:
-  enabled: true
-  fsGroup: 1000
-  runAsUser: 1000
+# securityContext:
+#   enabled: true
+#   fsGroup: 1000
+#   runAsUser: 1000
 
 resources: {}
 
