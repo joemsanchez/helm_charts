@@ -1,28 +1,11 @@
-{{- if .Values.persistence }}
-{{- if or .Values.disableDeploy (not .Values.statefulset) }}
-{{- $gName :=  include "Generated.fullname" .}}
-{{- $gChart := include "Generated.chart" . }}
-{{- $gRelease :=  .Release.Name }}
-{{- $gHeritage := .Release.Service }}
-{{- range $index, $persist :=.Values.persistence }}
----
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-  name: {{ $gName }}-{{ $persist.name }}
-  labels:
-    app: {{ $gName }}
-    chart: {{ $gChart }}
-    release: {{ $gRelease }}
-    heritage: {{ $gHeritage }}
-  annotations:
-  {{- if $persist.storageClass }}
-    volume.beta.kubernetes.io/storage-class: {{ $persist.spec.storageClass | quote }}
-  {{- else }}
-    volume.alpha.kubernetes.io/storage-class: default
-  {{- end }}
+  name: postgres-awx-demo-postgres-0
 spec:
-{{ toYaml $persist.spec | indent 2 }}
-{{- end }}
-{{- end }}
-{{- end }}
+  storageClassName: data-delete-sc
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi

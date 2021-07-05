@@ -52,19 +52,6 @@ livenessProbe:
   initialDelaySeconds: 15
   periodSeconds: 20
 
-server:
-  statefulSet:
-    enabled: true
-  persistentVolume:
-  name: postgres-awx-demo-postgres-0
-  spec:
-    storageClassName: data-delete-sc
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 20Gi
-
 ##
 ## Init containers parameters:
 ## volumePermissions: Change the owner of the persist volume mountpoint to RunAsUser:fsGroup
