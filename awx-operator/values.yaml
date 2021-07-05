@@ -52,12 +52,28 @@ livenessProbe:
   initialDelaySeconds: 15
   periodSeconds: 20
 
+# server:
+#   statefulSet:
+#     enabled: true
+#   persistentVolume:
+#     size: 8Gi
+#     storageClass: "data-delete-sc"
+
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
 server:
   statefulSet:
     enabled: true
   persistentVolume:
-    size: 8Gi
-    storageClass: "data-delete-sc"
+  name: postgres-awx-demo-postgres-0
+  spec:
+    storageClassName: data-delete-sc
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
 
 ##
 ## Init containers parameters:
