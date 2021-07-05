@@ -21,6 +21,6 @@ spec:
     hosts:
     - testservices.emrops.com
     tls:
-    - secretName: nginx-tls-cert
+    - secretName: tls-star-emrops
       hosts:
       - testservices.emrops.com
