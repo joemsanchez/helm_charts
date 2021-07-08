@@ -1,29 +1,12 @@
-{{- if .Values.rbac.create -}}
-{{- $gName := include "Generated.fullname" .}}
-{{- $gChart := include "Generated.chart" . }}
-{{- $gReleaseName := .Release.Name }}
-{{- $gHeritage := .Release.Service }}
-{{- $version := .Values.image.tag }}
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ $gName }}
-  labels:
-    app: {{ $gName }}
-    chart: {{ $gChart }}
-    release: {{ $gReleaseName }}
-    heritage: {{ $gHeritage }}
-    version: {{ $version | default "0" | quote }}
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: {{ include "Generated.fullname" . }}
+  name: awx-operator
 subjects:
-  - name: {{ include "Generated.fullname" . }}
-    namespace: {{ .Release.Namespace | quote }}
-    kind: ServiceAccount
-  - name: system:serviceaccounts
-    kind: Group
-    apiGroup: rbac.authorization.k8s.io
-{{- end -}}
+  - kind: ServiceAccount
+    name: awx-operator
+    namespace: awx
+roleRef:
+  kind: ClusterRole
+  name: awx-operator
+  apiGroup: rbac.authorization.k8s.io
