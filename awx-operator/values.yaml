@@ -50,7 +50,7 @@ rbac:
 serviceAccount:
   create: true
   annotations: {}
-  name: ""
+  name: "awx-operator"
 
 podAnnotations: {}
 
