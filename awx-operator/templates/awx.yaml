@@ -2,10 +2,8 @@ apiVersion: awx.ansible.com/v1beta1
 kind: AWX
 metadata:
   annotations:
-    "helm.sh/hook": post-install
   name: awx-demo
 spec:
-  tower_ingress_type: Ingress
-  # service_type: nodeport
-  # ingress_type: none
-  # hostname: awx-demo.example.com
+  service_type: ClusterIP
+  ingress_type: ingress
+  hostname: awx-demo.example.com
