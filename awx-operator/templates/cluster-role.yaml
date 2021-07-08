@@ -1,8 +1,20 @@
+{{- if .Values.rbac.create -}}
+{{- $gName := include "Generated.fullname" .}}
+{{- $gChart := include "Generated.chart" . }}
+{{- $gReleaseName := .Release.Name }}
+{{- $gHeritage := .Release.Service }}
+{{- $version := .Values.image.tag }}
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  creationTimestamp: null
-  name: awx-operator
+  name: {{ $gName }}
+  labels:
+    app: {{ $gName }}
+    chart: {{ $gChart }}
+    release: {{ $gReleaseName }}
+    heritage: {{ $gHeritage }}
+    version: {{ $version | default "0" | quote }}
 rules:
   - apiGroups:
       - route.openshift.io
@@ -78,7 +90,6 @@ rules:
       - awx.ansible.com
     resources:
       - '*'
-      - awxbackups
-      - awxrestores
     verbs:
       - '*'
+{{- end }}
