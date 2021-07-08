@@ -3,7 +3,7 @@ kind: AWX
 metadata:
   annotations:
   name: awx-demo
+  namespace: awx
 spec:
-  service_type: ClusterIP
-  ingress_type: ingress
-  hostname: awx-demo.example.com
+  tower_ingress_type: Ingress
+
