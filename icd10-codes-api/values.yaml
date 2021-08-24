@@ -22,22 +22,21 @@ healthProbes: false
 
 ingress:
   enabled: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/affinity: "cookie"
-    nginx.ingress.kubernetes.io/session-cookie-name: "icd10codes-api"
-    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/add-base-url: "true"
-    nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
   path: /icd10codesapi
   hosts:
-    - testservices.emrops.com
+  - testservices.emrops.com
   tls:
   - secretName: tls-star-emrops
     hosts:
     - testservices.emrops.com
+  ambassador:
+    enabled: true
+    ambassador_id: ambassador-id
+    prefix: /icd10codesapi/
+    rewrite: /
+    timeout_ms: 60000
+    connect_timeout_ms: 60000
+    apiVersion: getambassador.io/v1
 
 resources:
   limits:
