@@ -6,7 +6,7 @@ image:
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
-  - name: dockerregcred
+  - dockerregcred
 
 env:
   name: test
