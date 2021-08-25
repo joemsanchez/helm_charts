@@ -18,11 +18,10 @@ secret:
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
   annotations: {}
   labels: {}
 
-alias: true
 healthProbes: true
 
 ingress:
