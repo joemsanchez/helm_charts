@@ -22,7 +22,8 @@ service:
   annotations: {}
   labels: {}
 
-healthProbes: false
+alias: true
+healthProbes: true
 
 ingress:
   enabled: true
