@@ -8,9 +8,13 @@ image:
 imagePullSecrets:
   - dockerregcred
 
-env:
-  DbUserId: devdbuser
-  DbPassword: develop
+envSecrets:
+  DbUserId: icd10codes-api-credentials
+  DbPassword: icd10codes-api-credentials
+
+secret:
+  external: true
+  prefix: /hq/k8s/devops-dev
 
 service:
   type: ClusterIP
